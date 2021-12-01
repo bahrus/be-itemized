@@ -1,0 +1,19 @@
+{
+  "name": "be-itemized",
+  "version": "0.0.0",
+  "description": "```html\r <div itemscope itemtype=\"http://schema.org/Movie\" be-itemized=model>\r   <h1 itemprop=\"name\">Avatar</h1>\r   <span>Director:\r     <span itemprop=\"director\">James Cameron</span>\r     (born August 16, 1954)</span>\r   <span itemprop=\"genre\">Science fiction</span>\r   <a href=\"../movies/avatar-theatrical-trailer.html\"\r     itemprop=\"trailer\">Trailer</a>\r </div>\r ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bahrus/be-itemized.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bahrus/be-itemized/issues"
+  },
+  "homepage": "https://github.com/bahrus/be-itemized#readme"
+}

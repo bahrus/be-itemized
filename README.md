@@ -23,6 +23,8 @@ oDiv.itemized.trailer returns div.querySelector('[itemprop="trailer"]')
 
 Unfortunately, I don't think await is allowed with property getters.
 
+so oDiv.itemized.trailer() either returns div.querySelector('[itemprop="trailer"]') or a promise
+
 oDiv.itemized.assign({
   name: 'Jurassic Park',
   director: 'Steven Spielberg',

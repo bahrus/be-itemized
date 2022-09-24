@@ -20,11 +20,21 @@ Example 1:
         genre: 'Science Fiction',
         trailer: 'https://www.youtube.com/watch?v=_jKEqDKpJLw'
       };
-      self.assign(retrievedObject)
+      Object.assign(self, retrievedObject)
     }
   </script>
 </div>
 ```
+
+uses default transform tailored for itemscope
+
+can override default transform
+
+Exposed api:
+
+oScript.beDecorated.itemized.proxy.director just does oDiv.querySelector('[itemprop="director"])
+
+oScript.beDecorated.itemized.proxy.director() does a promise to oDiv.querySelector('[itemprop="director"]) (if null, adds be-vigilant attrib)
 
 
 

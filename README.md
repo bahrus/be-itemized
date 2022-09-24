@@ -21,3 +21,10 @@ The proxy supports getters that return the element matching the name, so for exa
 
 oDiv.itemized.trailer returns div.querySelector('[itemprop="trailer"]')
 
+oDiv.itemized.assign({
+  name: 'Jurassic Park',
+  director: 'Steven Spielberg',
+  genre: 'Science Fiction',
+  trailer: 'https://www.youtube.com/watch?v=_jKEqDKpJLw'
+});
+

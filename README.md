@@ -32,9 +32,9 @@ can override default transform
 
 Exposed api:
 
-oScript.beDecorated.itemized.proxy.director just does oDiv.querySelector('[itemprop="director"])
+oDiv.beDecorated.itemized.director just does oDiv.querySelector('[itemprop="director"])
 
-oScript.beDecorated.itemized.proxy.director() does a promise to oDiv.querySelector('[itemprop="director"]) (if null, adds be-vigilant attrib)
+oDiv.beDecorated.itemized.director() does a promise to oDiv.querySelector('[itemprop="director"]) (if null, adds be-vigilant attrib)
 
 
 

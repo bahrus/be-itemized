@@ -36,16 +36,34 @@ and does the following:
 Example 2:
 
 ```html
-  <script nomodule be-itemized=director>
+  <script nomodule be-itemized=director></script>
 ```
 
 is shorthand for:
 
 ```html
   <script nomodule be-itemized='{
-    "editable": ["directory"]
+    "editable": ["director"]
   }'>
 ```
+
+does the same as above, except for itemprop=director
+
+Example 3:
+
+```html
+  <script nomodule be-itemized='["name", "director"]'></script>
+```
+
+is shorthand for:
+
+```html
+  <script nomodule be-itemized='{
+    "editable": ["name", "director"]
+  }'>
+```
+
+Now attaches two event handlers.
 
 ```html
 <div itemscope itemtype="http://schema.org/Movie">

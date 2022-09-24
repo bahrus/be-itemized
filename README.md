@@ -2,7 +2,7 @@
 
 Part of what makes the HTML Form tag a useful component is that it provides API's centered around the presence of child tags (or external tags that reference the form), identified by the "name" attribute.
 
-One of the goals of be-itemized is to provide similar functionality for the itemscope attribute, where itemprop is used in lieu of the name attribute.
+One of the goals of be-itemized is to provide similar functionality for the itemscope attribute, where [itemprop](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/itemprop) is used in lieu of the name attribute.
 
 Example 1:
 
@@ -23,18 +23,32 @@ Example 1:
 </div>
 ```
 
-is shorthand for:
+This is shorthand for:
 
 ```html
+<div itemscope itemtype="http://schema.org/Movie">
+  <h1 itemprop="name" contenteditable>Avatar</h1>
+  <span>Director:
+    <span itemprop="director" >James Cameron</span>
+    (born August 16, 1954)</span>
+  <span itemprop="genre">Science fiction</span>
+  <a href="../movies/avatar-theatrical-trailer.html"
+    itemprop="trailer">Trailer</a>
   <script nomodule be-itemized='{
     "editable": ["name"],
     "ifAllOf": "name",
     "readOnly": false,
+    "transform": {
+      "directorI": "director",
+      "trailerI": "trailer",
+      "genreI": "genre",
+    }
   }'>
     export const itemLookup = async ({name}) => ({
       director: 'Steven Spielberg'
     });
   </script>
+</div>
 ```
 
 and does the following:
@@ -47,7 +61,7 @@ and does the following:
 6.  Only does event handler if name isn't empty.
 6.  Sets the director to Steven Spielberg
 
-
+All future examples will assume the same content surrounding the script tag, so we can focus our mental energy on what this package provides.
 
 Example 2:
 

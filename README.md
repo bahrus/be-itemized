@@ -12,6 +12,9 @@ Example 1:
   <a href="../movies/avatar-theatrical-trailer.html"
     itemprop="trailer">Trailer</a>
   <script nomodule be-itemized>
+    ({name}) => {
+      director: 'Steven Spielberg'
+    }
   </script>
 </div>
 ```
@@ -21,7 +24,11 @@ is shorthand for:
 ```html
   <script nomodule be-itemized='{
     "editable": ["name"]
-  }'></script>
+  }'>
+    export const itemLookup = async ({name}) => ({
+      director: 'Steven Spielberg'
+    })
+  </script>
 ```
 
 and does the following:
@@ -31,6 +38,8 @@ and does the following:
 3.  Adds contenteditable to itemprop=name element.
 4.  Attaches event listener to itemprop=name element.
 5.  Looks for event handler inside the script tag.
+6.  Sets the director to Steven Spielberg
+
 
 
 Example 2:

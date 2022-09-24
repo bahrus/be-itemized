@@ -21,6 +21,8 @@ The proxy supports getters that return the element matching the name, so for exa
 
 oDiv.itemized.trailer returns div.querySelector('[itemprop="trailer"]')
 
+Unfortunately, I don't think await is allowed with property getters.
+
 oDiv.itemized.assign({
   name: 'Jurassic Park',
   director: 'Steven Spielberg',

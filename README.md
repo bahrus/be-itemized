@@ -1,5 +1,7 @@
 # be-itemized [TODO]
 
+Breathe life into itemscope/itemprop.
+
 Part of what makes the HTML Form tag a useful element is that the platform provides API's centered around the presence of child tags (or external tags that reference the form), identified by the "name" attribute, even tags deeply nested inside of fieldsets, for example.
 
 One of the goals of be-itemized is to provide similar functionality for the itemscope attribute, where [itemprop](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/itemprop) is used in lieu of the name attribute.

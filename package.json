@@ -1,8 +1,25 @@
 {
   "name": "be-itemized",
   "version": "0.0.0",
-  "description": "```html\r <div itemscope itemtype=\"http://schema.org/Movie\" be-itemized=model>\r   <h1 itemprop=\"name\">Avatar</h1>\r   <span>Director:\r     <span itemprop=\"director\">James Cameron</span>\r     (born August 16, 1954)</span>\r   <span itemprop=\"genre\">Science fiction</span>\r   <a href=\"../movies/avatar-theatrical-trailer.html\"\r     itemprop=\"trailer\">Trailer</a>\r </div>\r ```",
-  "main": "index.js",
+  "keywords": [
+    "web-components",
+    "web-component",
+    "custom-element",
+    "custom-elements",
+    "itemprop",
+    "itemscope"
+  ],
+  "description": "Breathe life into itemscope/itemprop.",
+  "main": "be-itemized.js",
+  "module": "be-itemized.js",
+  "exports": {
+    ".": "./be-itemized.js",
+    "./be-itemized.js": "./be-itemized.js"
+  },
+  "files": [
+    "*.*"
+  ],
+  "types": "types.d.ts",
   "scripts": {
     "test": "playwright test",
     "package-check": "package-check",
@@ -11,6 +28,14 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bahrus/be-itemized.git"
+  },
+  "dependencies": {
+    "be-decorated": "0.0.163",
+    "be-exportable": "0.0.34",
+    "be-hive": "0.0.68",
+    "be-observant": "0.0.148",
+    "be-syndicating": "0.0.4",
+    "trans-render": "0.0.610"
   },
   "devDependencies": {
     "@skypack/package-check": "0.2.2",

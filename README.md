@@ -37,7 +37,9 @@ One could argue quite convincingly that the best way to implement this would be 
 But suppose neither of these scenarios are applicable, and we want to provide this ability in a less formal, more dynamic (perhaps) way.  But in a way that could be solidified with time into a reusable web component.
 
 ```html
-<input type=search name=search value=Avatar>
+<input type=search name=search value=Avatar be-fetching='{
+        "for": ["https://movie-db.com/search?name=", "val"]
+}'>
 <button type=button data-fields='["genre", "trailer"]'>Edit</button>
 <div itemscope itemtype="http://schema.org/Movie">
   <h1 itemprop="name">Avatar</h1>
@@ -54,6 +56,7 @@ But suppose neither of these scenarios are applicable, and we want to provide th
   }'>Save</button>
   <script be-itemized='{
     "editableItemProps": {"observe": "button[data-fields]", "vft": "dataset.fields", "parseValAs": "object"},
+    "model": {"observe": "input[type=search]", "homeInOn":"beDecorated.fetching.value", "vft": ".", "on": "value-changed"},
     "actionProps": ["commit"]
   }'>
     export const onEdit = await ({genre, trailer}) => {

@@ -42,7 +42,7 @@
     "@playwright/test": "1.25.2",
     "may-it-serve": "0.0.2"
   },
-  "author": "",
+  "author": "Bruce B. Anderson <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bahrus/be-itemized/issues"

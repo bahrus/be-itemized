@@ -4,15 +4,15 @@
 
 Make itemscope adorned elements bindable in an easy way.
 
-It is helpful to have a mental model of a typical use case this element decorator / behavior is attempting to assist with.  It might not be the most compelling use case in the world.  Still
+It is helpful to have a mental model of a typical use case this element decorator / behavior is attempting to assist with.  It might not be the most compelling use case in the world.  Still...
 
 That use case is this:
 
 Suppose we provide a web site where users can search for a movie.  When conducting the search, an API returning JSON provides details regarding the movie.  We want to bind to that JSON on the page.
 
-We want our web site to be search engine optimized using existing standards, so we make use of the [itemscope attribute ("microdata")'(https://www.semrush.com/blog/what-is-schema-beginner-s-guide-to-structured-data/).
+We want our web site to be search engine optimized using existing standards, so we make use of the [itemscope attribute ("microdata")](https://www.semrush.com/blog/what-is-schema-beginner-s-guide-to-structured-data/).
 
-And in addition, certain users with editing rights can do the same step as above, using the same exact script, but then they can edit one or two of the  values.  As they edit the values, the values are saved to the database as a draft, so the editor can come back later (on a different device) and continue, before clicking on a save button which commits the changes so other users can see the edits.  
+And in addition, certain users with editing rights can do the same step as above, using the same exact steps, but then they can edit one or two of the  values.  As they edit the values, the values are saved to the database as a draft, so the editor can come back later (on a different device) and continue, before clicking on a save button which commits the changes so other users can see the edits.  
 
 So the server provides the following HTML when the page first loads, to this super user.
 
@@ -32,7 +32,7 @@ So the server provides the following HTML when the page first loads, to this sup
 </div>
 ``` 
 
-One could argue quite convincingly that the best way to implement this would be via a web component, which is all fine and good.  The case becomes strongest if the same the same UI is used elsewhere, either repeatedly on the same page, or in other context.  And many web component helper libraries provide perfectly good mechanisms to make this easy to implement.
+One could argue quite convincingly that the best way to implement this would be via a web component, which is all fine and good.  The case becomes strongest if the same UI is used elsewhere, either repeatedly on the same page, or in other contexts.  And many web component helper libraries provide perfectly good mechanisms to make this easy to implement.
 
 But suppose neither of these scenarios are applicable, and we want to provide this ability in a less formal, more dynamic (perhaps) way.  But in a way that could be solidified with time into a reusable web component.
 
@@ -47,14 +47,23 @@ But suppose neither of these scenarios are applicable, and we want to provide th
   <span itemprop="genre">Science fiction</span>
   <a href="../movies/avatar-theatrical-trailer.html"
     itemprop="trailer">Trailer</a>
-  <button type=button>Save</button>
+  <button type=button be-noticed='{
+    "tocoho": true,
+    "prop": "beDecorated.itemized.commit",
+    "fn": "onCommit"
+  }'>Save</button>
   <script be-itemized='{
-    "editableFields": {"observe": "button[data-fields]", "vft": "dataset.fields", "parseValAs": "object"}
+    "editableItemProps": {"observe": "button[data-fields]", "vft": "dataset.fields", "parseValAs": "object"},
+    "actionProps": ["commit"]
   }'>
-    ({genre, trailer}) => {
+    export const onEdit = await ({genre, trailer}) => {
       // save to draft
+    };
+    export const onCommit = await ({genre, trailer, commit}) => {
+      // commit so others can see
     }
   </script>
+  
 </div>
 ```
 

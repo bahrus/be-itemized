@@ -1,32 +1,58 @@
 # be-itemized [TODO]
 
-Make itemscope adorned elements editable in an easy way.
+## Use case
 
-Part of what makes the HTML Form tag a useful element is that the platform provides API's centered around the presence of child tags (or external tags that reference the form), identified by the "name" attribute, even tags deeply nested inside of fieldsets, for example.
+Make itemscope adorned elements bindable in an easy way.
 
-One of the goals of be-itemized is to provide similar functionality for the itemscope attribute, where [itemprop](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/itemprop) is used in lieu of the name attribute.
+It is helpful to have a mental model of a typical use case this element decorator / behavior is attempting to assist with.  It might not be the most compelling use case in the world.  Still
 
-Example 1:
+That use case is this:
+
+Suppose we provide a web site where users can search for a movie.  When conducting the search, an API returning JSON provides details regarding the movie.  We want to bind to that JSON on the page.
+
+We want our web site to be search engine optimized using existing standards, so we make use of the [itemscope attribute ("microdata")'(https://www.semrush.com/blog/what-is-schema-beginner-s-guide-to-structured-data/).
+
+And in addition, certain users with editing rights can do the same step as above, using the same exact script, but then they can edit one or two of the  values.  As they edit the values, the values are saved to the database as a draft, so the editor can come back later (on a different device) and continue, before clicking on a save button which commits the changes so other users can see the edits.  
+
+So the server provides the following HTML when the page first loads, to this super user.
 
 
 ```html
+<input type=search name=search value=Avatar>
+<button type=button data-fields='["genre", "trailer"]'>Edit</button>
 <div itemscope itemtype="http://schema.org/Movie">
   <h1 itemprop="name">Avatar</h1>
   <span>Director:
-    <span itemprop="director" >James Cameron</span>
+    <span itemprop="director">James Cameron</span>
     (born August 16, 1954)</span>
   <span itemprop="genre">Science fiction</span>
   <a href="../movies/avatar-theatrical-trailer.html"
     itemprop="trailer">Trailer</a>
-  <script nomodule be-itemized=name>
-    ({name}) => {
-      //await some lookup somewhere
-      return {
-        name: 'Jurassic Park',
-        director: 'Steven Spielberg',
-        genre: 'Science Fiction',
-        trailer: 'https://www.youtube.com/watch?v=_jKEqDKpJLw'
-      };
+  <button type=button>Save</button>
+</div>
+``` 
+
+One could argue quite convincingly that the best way to implement this would be via a web component, which is all fine and good.  The case becomes strongest if the same the same UI is used elsewhere, either repeatedly on the same page, or in other context.  And many web component helper libraries provide perfectly good mechanisms to make this easy to implement.
+
+But suppose neither of these scenarios are applicable, and we want to provide this ability in a less formal, more dynamic (perhaps) way.  But in a way that could be solidified with time into a reusable web component.
+
+```html
+<input type=search name=search value=Avatar>
+<button type=button data-fields='["genre", "trailer"]'>Edit</button>
+<div itemscope itemtype="http://schema.org/Movie">
+  <h1 itemprop="name">Avatar</h1>
+  <span>Director:
+    <span itemprop="director">James Cameron</span>
+    (born August 16, 1954)</span>
+  <span itemprop="genre">Science fiction</span>
+  <a href="../movies/avatar-theatrical-trailer.html"
+    itemprop="trailer">Trailer</a>
+  <button type=button>Save</button>
+  <script be-itemized='{
+    "editableFields": {"observe": "button[data-fields]", "vft": "dataset.fields", "parseValAs": "object"}
+  }'>
+    ({genre, trailer}) => {
+      // save to draft
     }
   </script>
 </div>
@@ -34,11 +60,8 @@ Example 1:
 
 What this does:
 
-
-1.  Adds contenteditable to itemprop=name element.
-2.  Attaches event listener to itemprop=name element with type "input".
-3.  Looks for event handler inside the script tag.
-4.  Sets the director to Steven Spielberg when the user changes the name of the movie
+1.  Creates proxy and attaches it to oDiv.beDecorated.itemized  Gets initialized to {name: 'Avatar', director: 'James Cameron', genre: 'Science Fiction', trailer: '../movies/avatar-theatrical-trailer.html'}
+2.  Subsequent changes to the proxy
 
 Note that we can add some sort of styling to the h1 element when the attribute contenteditable gets applied, that indicates it is editable.  This seems like an elegant solution to the issue of SSR showing interactive elements before being hydrating.
 
@@ -47,6 +70,7 @@ This is shorthand for:
 
 ```html
 <div itemscope itemtype="http://schema.org/Movie">
+  
   <h1 itemprop="name" contenteditable>Avatar</h1>
   <span>Director:
     <span itemprop="director">James Cameron</span>

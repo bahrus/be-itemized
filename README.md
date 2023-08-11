@@ -39,8 +39,8 @@ results in:
 >Basic, Improved - Prototype Definition</a>
 <meta itemprop=protocol content=https>
 <meta itemprop=domain content=docs.joshatz.com>
-<meta itemprop=articleType content=cheatsheets>
-<meta itemprop=language content=js>
+<meta itemprop=articleType content=cheatsheets be-upchucked>
+<meta itemprop=language content=js be-upchucked>
 <meta itemprop=topic content=classes>
 <meta itemprop=section content=basic-improved---prototype-definition>
 ```

@@ -2,7 +2,7 @@
 
 ## Use case
 
-Make server rendered html generate microdata.
+Make server rendered html generate microdata.  Complements [be-itemized](https://)
 
 Example 1:
 

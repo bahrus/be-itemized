@@ -15,20 +15,20 @@ Example 1:
 generates:
 
 ```html
-<link itemprop=isVegetarian be-value-added href="https://schema.org/True">
+<link itemprop=isVegetarian be-a-beacon be-value-added href="https://schema.org/True">
 <input disabled be-itemized='{
   "disabled": "{isVegetarian}"
 }'>
 
 ```
 
-Only adds if there is no element with itemprop=isVegetarian within Shadow DOM realm.  Attribute ["be-value-added"](https://github.com/bahrus/be-value-added) isn't actually added.  Enhancement added quietly.  Enhancement only added if no other be-value-added extended enhancement is added.
+Only adds if there is no element with itemprop=isVegetarian within Shadow DOM realm.  Attributes ["be-value-added"](https://github.com/bahrus/be-value-added) and ["be-a-beacon"](https://github.com/bahrus/be-a-beacon) aren't actually added.  Enhancements added quietly.  *be-value-added* enhancement only added if no other be-value-added extended enhancement already present.
 
 Example 2:
 
 ```html
 <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized='{
-    "href": "{protocol}://{domain}/{{articleType}}/{language}/{{language}}-{classes}/#{section}"
+    "href": "{protocol}://{domain}/{articleType}/{language}/{language}-{classes}/#{section}"
 }'
 >Basic, Improved - Prototype Definition</a>
 ```
@@ -38,8 +38,8 @@ results in:
 ```html
 <meta itemprop=protocol content=https>
 <meta itemprop=domain content=docs.joshatz.com>
-<meta itemprop=articleType content=cheatsheets be-upchucked>
-<meta itemprop=language content=js be-upchucked>
+<meta itemprop=articleType content=cheatsheets>
+<meta itemprop=language content=js>
 <meta itemprop=topic content=classes>
 <meta itemprop=section content=basic-improved---prototype-definition>
 <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized='{
@@ -49,7 +49,6 @@ results in:
 
 ```
 
-The parameters with double braces also pass the value to the "host-ish".
 
 
 

@@ -2,7 +2,9 @@
 
 ## Use case
 
-Make server rendered html generate microdata.  Complements [be-joined](https://github.com/bahrus/be-joined).
+Make server rendered html generate microdata.
+
+After resolving, detaches, and attaches [be-joined](https://github.com/bahrus/be-joined).
 
 Example 1:
 

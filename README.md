@@ -46,6 +46,8 @@ results in:
 
 ```
 
+be-exported means declarative web component will expose property / attribute to be passed in externally.
+
 
 
 

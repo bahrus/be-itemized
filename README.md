@@ -9,36 +9,31 @@ After resolving, detaches, and attaches [be-joined](https://github.com/bahrus/be
 Example 1:
 
 ```html
-<input disabled be-itemized='{
-  "disabled": "{isVegetarian}"
-}'>
-```
-
-generates:
-
-```html
-<link itemprop=isVegetarian be-a-beacon be-value-added href="https://schema.org/True">
-<input disabled be-itemized='{
-  "disabled": "{isVegetarian}"
-}'>
+<input disabled be-itemized='
+  Itemize is vegetarian from disabled.
+'>
 
 ```
+
 
 Only adds if there is no element with itemprop=isVegetarian within itemscope scope.  Attributes ["be-value-added"](https://github.com/bahrus/be-value-added) and ["be-a-beacon"](https://github.com/bahrus/be-a-beacon) aren't actually added.  Enhancements added quietly.  *be-value-added* enhancement only added if no other be-value-added extended enhancement already present.
+
 
 Example 2:
 
 ```html
-<a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized='{
-    "href": "{protocol}://{domain}/{articleType}/{language}/{language}-{classes}/#{section}"
-}'
+<a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized="
+  Itemize href from expression {protocol as text be-exported}://{domain}/{articleType}/{language}/{language}-{classes}/#{section}.
+"
 >Basic, Improved - Prototype Definition</a>
 ```
 
 results in:
 
 ```html
-<meta itemprop=protocol content=https>
+<meta itemprop=protocol content=https be-value-added='{
+  "beExported": true
+}' itemtype=https://schema.org/Text>
 <meta itemprop=domain content=docs.joshatz.com>
 <meta itemprop=articleType content=cheatsheets>
 <meta itemprop=language content=js>

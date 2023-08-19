@@ -44,7 +44,7 @@ results in:
 <meta itemprop=language content=js>
 <meta itemprop=topic content=classes>
 <meta itemprop=section content=basic-improved---prototype-definition>
-<a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized='{
+<a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-joined='{
     "href": "{protocol}://{domain}/{articleType}/{language}/{language}-{classes}/#{section}"
 }'
 >Basic, Improved - Prototype Definition</a>

@@ -5,8 +5,10 @@ export interface EndUserProps extends IBE{
     camelConfig?: CamelConfig,
 }
 
-export interface CamelConfig{
+export type ItemizeStatement = string;
 
+export interface CamelConfig{
+    Itemize?: ItemizeStatement[]
 }
 
 export interface AllProps extends EndUserProps{

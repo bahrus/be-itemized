@@ -12,12 +12,13 @@ const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
 
 const reItemizeStatements: RegExpOrRegExpExt<PIS>[] = [
     {
-        regExp: new RegExp(String.raw `(?<expr>[\w\{\}]+)(?<!\\)As(?<prop>[\w]+)`),
+        regExp: new RegExp(String.raw `(?<prop>[\w]+)(?<!\\)FromExpression(?<expr>.*)`),
         defaultVals:{
 
         }
     }
-]
+];
+
 
 interface ItemizeStatement{
     prop: string,
@@ -57,8 +58,23 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
             const {Itemize} = cc;
             if(Itemize === undefined) continue;
             for(const item of Itemize){
-                const test = tryParse(item, reItemizeStatements);
+                const test = tryParse(item, reItemizeStatements) as ItemizeStatement;
                 console.log({test});
+                if(test === null) throw 'PE';//Parse Error
+                const {prop, expr} = test;
+                if(prop === undefined || expr === undefined) throw 'PE'; //Parse Error
+                const closedBraceSplit = expr.split('}');
+                const parsedStr: Array<string> = [];
+                for(const cb of closedBraceSplit){
+                    if(cb.indexOf('{') > -1){
+                        const openBraceSplit = cb.split('{');
+                        parsedStr.push(openBraceSplit[0]);
+                        parsedStr.push(openBraceSplit[1]);
+                    }else{
+                        parsedStr.push(cb);
+                    }
+                }
+                console.log({parsedStr});
             }
             
         }

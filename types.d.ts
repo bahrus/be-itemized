@@ -1,23 +1,30 @@
 import { ActionOnEventConfigs } from "trans-render/froop/types";
 import {IBE} from 'be-enhanced/types';
 
-export interface EndUserProps{
-    model?: IObserve;
-    modelVal?: {[key: string] : string}
+export interface EndUserProps extends IBE{
+    camelConfig?: CamelConfig,
 }
 
-export interface VirtualProps extends EndUserProps, MinimalProxy{
+export interface CamelConfig{
+
+}
+
+export interface AllProps extends EndUserProps{
+    canonicalConfig?: CanonicalConfig,
+}
+
+export interface CanonicalConfig{
+
 }
 
 
+export type AP = AllProps;
 
-export type Proxy = Element & VirtualProps;
+export type PAP = Partial<AP>;
 
-export interface ProxyProps extends VirtualProps{
-    proxy: Proxy,
-}
+export type ProPAP = Promise<PAP>;
 
-export type PP = ProxyProps;
+export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>]
 
 export interface Actions{
 }

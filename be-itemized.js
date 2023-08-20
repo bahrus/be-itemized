@@ -1,8 +1,15 @@
 import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
+import { arr, tryParse } from 'be-enhanced/cpu.js';
 const cache = new Map();
 const cachedCanonicals = {};
+const reItemizeStatements = [
+    {
+        regExp: new RegExp(String.raw `(?<expr>[\w\{\}]+)(?<!\\)As(?<prop>[\w]+)`),
+        defaultVals: {}
+    }
+];
 export class BeItemized extends BE {
     static get beConfig() {
         return {
@@ -24,11 +31,25 @@ export class BeItemized extends BE {
                 };
             }
         }
-        const { arr } = await import('be-enhanced/cpu.js');
         const camelConfigArr = arr(camelConfig);
+        const {} = camelConfigArr;
+        for (const cc of camelConfigArr) {
+            const { Itemize } = cc;
+            if (Itemize === undefined)
+                continue;
+            for (const item of Itemize) {
+                const test = tryParse(item, reItemizeStatements);
+                console.log({ test });
+            }
+        }
         const canonicalConfig = {};
         return {
             canonicalConfig
+        };
+    }
+    async onCanonical(self) {
+        return {
+            resolved: true
         };
     }
 }

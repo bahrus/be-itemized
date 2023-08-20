@@ -4,9 +4,28 @@ import {XE} from 'xtal-element/XE.js';
 import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig} from './types';
 import {register} from 'be-hive/register.js';
 import {JSONValue} from 'trans-render/lib/types';
+import {RegExpOrRegExpExt} from 'be-enhanced/types';
+import {arr, tryParse} from 'be-enhanced/cpu.js';
 
 const cache = new Map<string, JSONValue>();
 const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
+
+const reItemizeStatements: RegExpOrRegExpExt<PIS>[] = [
+    {
+        regExp: new RegExp(String.raw `(?<expr>[\w\{\}]+)(?<!\\)As(?<prop>[\w]+)`),
+        defaultVals:{
+
+        }
+    }
+]
+
+interface ItemizeStatement{
+    prop: string,
+    expr: string,
+}
+
+type PIS = Partial<ItemizeStatement>;
+
 export class BeItemized extends BE<AP, Actions> implements Actions{
     static override get beConfig() {
         return {
@@ -32,14 +51,28 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
             }
 
         }
-        const {arr} = await import('be-enhanced/cpu.js');
         const camelConfigArr = arr(camelConfig);
-
+        const {} = camelConfigArr;
+        for(const cc of camelConfigArr){
+            const {Itemize} = cc;
+            if(Itemize === undefined) continue;
+            for(const item of Itemize){
+                const test = tryParse(item, reItemizeStatements);
+                console.log({test});
+            }
+            
+        }
         const canonicalConfig: CanonicalConfig = {
 
         };
         return {
             canonicalConfig
+        };
+    }
+
+    async onCanonical(self: this): ProPAP {
+        return {
+            resolved: true
         };
     }
 }

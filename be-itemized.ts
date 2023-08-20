@@ -1,11 +1,12 @@
 import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
 import {BEConfig} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
-import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig} from './types';
+import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig, StringOrProp, Items, Parts} from './types';
 import {register} from 'be-hive/register.js';
 import {JSONValue} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 import {arr, tryParse} from 'be-enhanced/cpu.js';
+import { PropInfoExt } from '../xtal-element/types';
 
 const cache = new Map<string, JSONValue>();
 const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
@@ -53,7 +54,8 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
 
         }
         const camelConfigArr = arr(camelConfig);
-        const {} = camelConfigArr;
+        //const {} = camelConfigArr;
+        const items: Items = {};
         for(const cc of camelConfigArr){
             const {Itemize} = cc;
             if(Itemize === undefined) continue;
@@ -64,23 +66,28 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 const {prop, expr} = test;
                 if(prop === undefined || expr === undefined) throw 'PE'; //Parse Error
                 const closedBraceSplit = expr.split('}');
-                const parsedStr: Array<string> = [];
+                const parts: Parts = [];
                 for(const cb of closedBraceSplit){
                     if(cb.indexOf('{') > -1){
                         const openBraceSplit = cb.split('{');
-                        parsedStr.push(openBraceSplit[0]);
-                        parsedStr.push(openBraceSplit[1]);
+                        parts.push(openBraceSplit[0]);
+                        const prop: PropInfoExt = {   }
+                        parts.push([openBraceSplit[1], prop]);
                     }else{
-                        parsedStr.push(cb);
+                        parts.push(cb);
                     }
                 }
-                console.log({parsedStr});
+                items[prop] = parts;
+                console.log({parts});
             }
             
         }
         const canonicalConfig: CanonicalConfig = {
-
+            items
         };
+        if(parsedFrom !== undefined){
+            cachedCanonicals[parsedFrom] = canonicalConfig;
+        }
         return {
             canonicalConfig
         };

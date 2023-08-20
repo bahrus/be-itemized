@@ -32,7 +32,8 @@ export class BeItemized extends BE {
             }
         }
         const camelConfigArr = arr(camelConfig);
-        const {} = camelConfigArr;
+        //const {} = camelConfigArr;
+        const items = {};
         for (const cc of camelConfigArr) {
             const { Itemize } = cc;
             if (Itemize === undefined)
@@ -46,21 +47,28 @@ export class BeItemized extends BE {
                 if (prop === undefined || expr === undefined)
                     throw 'PE'; //Parse Error
                 const closedBraceSplit = expr.split('}');
-                const parsedStr = [];
+                const parts = [];
                 for (const cb of closedBraceSplit) {
                     if (cb.indexOf('{') > -1) {
                         const openBraceSplit = cb.split('{');
-                        parsedStr.push(openBraceSplit[0]);
-                        parsedStr.push(openBraceSplit[1]);
+                        parts.push(openBraceSplit[0]);
+                        const prop = {};
+                        parts.push([openBraceSplit[1], prop]);
                     }
                     else {
-                        parsedStr.push(cb);
+                        parts.push(cb);
                     }
                 }
-                console.log({ parsedStr });
+                items[prop] = parts;
+                console.log({ parts });
             }
         }
-        const canonicalConfig = {};
+        const canonicalConfig = {
+            items
+        };
+        if (parsedFrom !== undefined) {
+            cachedCanonicals[parsedFrom] = canonicalConfig;
+        }
         return {
             canonicalConfig
         };

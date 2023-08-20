@@ -16,14 +16,19 @@ export interface AllProps extends EndUserProps{
     canonicalConfig?: CanonicalConfig,
 }
 
-export interface CanonicalConfig{
-    parts?: Array<StringOrProp>;
+export interface CanonicalConfig {
+    items?: Items,
 }
+
+export type Items = {[key: NameOfProp]: Parts};
 
 export type ConstString = String;
 
-export type StringOrProp = ConstString | PropInfoExt;
+export type NameOfProp = string;
 
+export type StringOrProp = ConstString | [NameOfProp, PropInfoExt];
+
+export type Parts = Array<StringOrProp>;
 
 export type AP = AllProps;
 

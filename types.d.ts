@@ -29,4 +29,6 @@ export type ProPAP = Promise<PAP>;
 export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>]
 
 export interface Actions{
+    camelToCanonical(self: this): ProPAP;
+    onCanonical(self: this): ProPAP;
 }

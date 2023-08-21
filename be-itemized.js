@@ -2,7 +2,7 @@ import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 import { arr, tryParse } from 'be-enhanced/cpu.js';
-import { toParts } from 'trans-render/lib/brace.js';
+import { toParts, getPartVals } from 'trans-render/lib/brace.js';
 const cache = new Map();
 const cachedCanonicals = {};
 const reItemizeStatements = [
@@ -72,30 +72,22 @@ export class BeItemized extends BE {
             const val = enhancedElement[key];
             if (!val)
                 continue;
-            let cursorPos = 0;
-            const boundaries = [];
-            for (const part of parts) {
-                switch (typeof part) {
-                    case 'string':
-                        cursorPos = val.indexOf(part, cursorPos);
-                        boundaries.push([cursorPos, cursorPos + part.length]);
-                        cursorPos += part.length;
-                }
-            }
-            const vals = [];
-            for (let i = 0, ii = boundaries.length - 1; i < ii; i++) {
-                const boundary = boundaries[i];
-                const boundaryPlusOne = boundaries[i + 1];
-                const start = boundary[1];
-                const end = boundaryPlusOne[0];
-                vals.push(val.substring(start, end));
-            }
+            // const boundaries = getBounds(val, parts as PropInfoParts);
+            // const vals = [];
+            // for(let i = 0, ii = boundaries.length - 1; i< ii;  i++){
+            //     const boundary = boundaries[i];
+            //     const boundaryPlusOne = boundaries[i + 1];
+            //     const start = boundary[1];
+            //     const end = boundaryPlusOne[0];
+            //     vals.push(val.substring(start, end));
+            // }
+            const partVals = getPartVals(val, parts);
             let cnt = 0;
             const parsedObject = {};
             for (const part of parts) {
                 switch (typeof part) {
                     case 'object':
-                        parsedObject[part[0]] = vals[cnt];
+                        parsedObject[part[0]] = partVals[cnt];
                         cnt++;
                         break;
                 }

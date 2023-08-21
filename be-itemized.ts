@@ -3,11 +3,11 @@ import {BEConfig} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
 import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig, StringOrProp, Items, Parts} from './types';
 import {register} from 'be-hive/register.js';
-import {JSONValue} from 'trans-render/lib/types';
+import {JSONValue, Parts as PropInfoParts} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 import {arr, tryParse} from 'be-enhanced/cpu.js';
 import { PropInfoExt } from '../xtal-element/types';
-import {toParts} from 'trans-render/lib/brace.js';
+import {toParts, getBounds, getPartVals} from 'trans-render/lib/brace.js';
 
 const cache = new Map<string, JSONValue>();
 const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
@@ -92,30 +92,22 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
             const parts = items[key];
             const val = (<any>enhancedElement)[key] as string;
             if(!val) continue;
-            let cursorPos = 0;
-            const boundaries = []
-            for(const part of parts){
-                switch(typeof part){
-                    case 'string':
-                        cursorPos = val.indexOf(part, cursorPos);
-                        boundaries.push([cursorPos, cursorPos + part.length]);
-                        cursorPos += part.length;
-                }
-            }
-            const vals = [];
-            for(let i = 0, ii = boundaries.length - 1; i< ii;  i++){
-                const boundary = boundaries[i];
-                const boundaryPlusOne = boundaries[i + 1];
-                const start = boundary[1];
-                const end = boundaryPlusOne[0];
-                vals.push(val.substring(start, end));
-            }
+            // const boundaries = getBounds(val, parts as PropInfoParts);
+            // const vals = [];
+            // for(let i = 0, ii = boundaries.length - 1; i< ii;  i++){
+            //     const boundary = boundaries[i];
+            //     const boundaryPlusOne = boundaries[i + 1];
+            //     const start = boundary[1];
+            //     const end = boundaryPlusOne[0];
+            //     vals.push(val.substring(start, end));
+            // }
+            const partVals = getPartVals(val, parts as PropInfoParts);
             let cnt = 0;
             const parsedObject: any = {};
             for(const part of parts){
                 switch(typeof part){
                     case 'object':
-                        parsedObject[part[0]] = vals[cnt];
+                        parsedObject[part[0]] = partVals[cnt];
                         cnt++;
                         break;
 

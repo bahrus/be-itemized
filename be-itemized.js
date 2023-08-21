@@ -76,6 +76,7 @@ export class BeItemized extends BE {
     async onCanonical(self) {
         const { canonicalConfig, enhancedElement } = self;
         const scope = enhancedElement.closest('[itemscope]');
+        import('be-value-added/be-value-added.js');
         if (scope === null)
             throw 404;
         const { items } = canonicalConfig;
@@ -122,6 +123,7 @@ export class BeItemized extends BE {
                 const itemprop = document.createElement('meta');
                 itemprop.setAttribute('itemprop', key);
                 scope.appendChild(itemprop);
+                itemprop.beEnhanced.by.beValueAdded.value = parsedObject[key];
             }
         }
         return {

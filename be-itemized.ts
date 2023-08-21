@@ -96,6 +96,7 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
     async onCanonical(self: this): ProPAP {
         const {canonicalConfig, enhancedElement} = self;
         const scope = enhancedElement.closest('[itemscope]');
+        import('be-value-added/be-value-added.js');
         if(scope === null) throw 404;
         const {items} = canonicalConfig!;
         for(const key in items!){
@@ -142,6 +143,7 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 const itemprop = document.createElement('meta');
                 itemprop.setAttribute('itemprop', key);
                 scope.appendChild(itemprop);
+                (<any>itemprop).beEnhanced.by.beValueAdded.value = parsedObject[key];
             }
 
         }

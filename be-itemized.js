@@ -2,6 +2,7 @@ import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 import { arr, tryParse } from 'be-enhanced/cpu.js';
+import { toParts } from 'trans-render/lib/brace.js';
 const cache = new Map();
 const cachedCanonicals = {};
 const reItemizeStatements = [
@@ -45,20 +46,8 @@ export class BeItemized extends BE {
                 const { prop, expr } = test;
                 if (prop === undefined || expr === undefined)
                     throw 'PE'; //Parse Error
-                const closedBraceSplit = expr.split('}');
-                const parts = [];
-                for (const cb of closedBraceSplit) {
-                    if (cb.indexOf('{') > -1) {
-                        const openBraceSplit = cb.split('{');
-                        parts.push(openBraceSplit[0]);
-                        const prop = {};
-                        parts.push([openBraceSplit[1], prop]);
-                    }
-                    else {
-                        parts.push(cb);
-                    }
-                }
-                items[prop] = parts;
+                //const closedBraceSplit = expr.split('}');
+                items[prop] = toParts(expr);
             }
         }
         const canonicalConfig = {

@@ -7,6 +7,7 @@ import {JSONValue} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 import {arr, tryParse} from 'be-enhanced/cpu.js';
 import { PropInfoExt } from '../xtal-element/types';
+import {toParts} from 'trans-render/lib/brace.js';
 
 const cache = new Map<string, JSONValue>();
 const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
@@ -64,19 +65,8 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 if(test === null) throw 'PE';//Parse Error
                 const {prop, expr} = test;
                 if(prop === undefined || expr === undefined) throw 'PE'; //Parse Error
-                const closedBraceSplit = expr.split('}');
-                const parts: Parts = [];
-                for(const cb of closedBraceSplit){
-                    if(cb.indexOf('{') > -1){
-                        const openBraceSplit = cb.split('{');
-                        parts.push(openBraceSplit[0]);
-                        const prop: PropInfoExt = {   }
-                        parts.push([openBraceSplit[1], prop]);
-                    }else{
-                        parts.push(cb);
-                    }
-                }
-                items[prop] = parts;
+                //const closedBraceSplit = expr.split('}');
+                items[prop] = toParts(expr) as Parts;
             }
             
         }

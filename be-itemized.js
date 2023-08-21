@@ -40,7 +40,6 @@ export class BeItemized extends BE {
                 continue;
             for (const item of Itemize) {
                 const test = tryParse(item, reItemizeStatements);
-                console.log({ test });
                 if (test === null)
                     throw 'PE'; //Parse Error
                 const { prop, expr } = test;
@@ -60,7 +59,6 @@ export class BeItemized extends BE {
                     }
                 }
                 items[prop] = parts;
-                console.log({ parts });
             }
         }
         const canonicalConfig = {
@@ -85,7 +83,6 @@ export class BeItemized extends BE {
             const val = enhancedElement[key];
             if (!val)
                 continue;
-            console.log({ key, parts, val });
             let cursorPos = 0;
             const boundaries = [];
             for (const part of parts) {
@@ -96,7 +93,6 @@ export class BeItemized extends BE {
                         cursorPos += part.length;
                 }
             }
-            console.log({ boundaries });
             const vals = [];
             for (let i = 0, ii = boundaries.length - 1; i < ii; i++) {
                 const boundary = boundaries[i];
@@ -104,14 +100,12 @@ export class BeItemized extends BE {
                 const start = boundary[1];
                 const end = boundaryPlusOne[0];
                 vals.push(val.substring(start, end));
-                //console.log({start, end});
             }
             let cnt = 0;
             const parsedObject = {};
             for (const part of parts) {
                 switch (typeof part) {
                     case 'object':
-                        console.log({ prop: part[0], val: vals[cnt] });
                         parsedObject[part[0]] = vals[cnt];
                         cnt++;
                         break;

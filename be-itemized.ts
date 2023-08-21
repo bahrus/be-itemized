@@ -61,7 +61,6 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
             if(Itemize === undefined) continue;
             for(const item of Itemize){
                 const test = tryParse(item, reItemizeStatements) as ItemizeStatement;
-                console.log({test});
                 if(test === null) throw 'PE';//Parse Error
                 const {prop, expr} = test;
                 if(prop === undefined || expr === undefined) throw 'PE'; //Parse Error
@@ -78,7 +77,6 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                     }
                 }
                 items[prop] = parts;
-                console.log({parts});
             }
             
         }
@@ -104,7 +102,6 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
             const parts = items[key];
             const val = (<any>enhancedElement)[key] as string;
             if(!val) continue;
-            console.log({key, parts, val});
             let cursorPos = 0;
             const boundaries = []
             for(const part of parts){
@@ -115,7 +112,6 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                         cursorPos += part.length;
                 }
             }
-            console.log({boundaries});
             const vals = [];
             for(let i = 0, ii = boundaries.length - 1; i< ii;  i++){
                 const boundary = boundaries[i];
@@ -123,14 +119,12 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 const start = boundary[1];
                 const end = boundaryPlusOne[0];
                 vals.push(val.substring(start, end));
-                //console.log({start, end});
             }
             let cnt = 0;
             const parsedObject: any = {};
             for(const part of parts){
                 switch(typeof part){
                     case 'object':
-                        console.log({prop: part[0], val: vals[cnt]});
                         parsedObject[part[0]] = vals[cnt];
                         cnt++;
                         break;

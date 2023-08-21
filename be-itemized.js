@@ -2,7 +2,7 @@ import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 import { arr, tryParse } from 'be-enhanced/cpu.js';
-import { toParts, getPartVals } from 'trans-render/lib/brace.js';
+import { toParts, getParsedObject } from 'trans-render/lib/brace.js';
 const cache = new Map();
 const cachedCanonicals = {};
 const reItemizeStatements = [
@@ -33,7 +33,6 @@ export class BeItemized extends BE {
             }
         }
         const camelConfigArr = arr(camelConfig);
-        //const {} = camelConfigArr;
         const items = {};
         for (const cc of camelConfigArr) {
             const { Itemize } = cc;
@@ -46,7 +45,6 @@ export class BeItemized extends BE {
                 const { prop, expr } = test;
                 if (prop === undefined || expr === undefined)
                     throw 'PE'; //Parse Error
-                //const closedBraceSplit = expr.split('}');
                 items[prop] = toParts(expr);
             }
         }
@@ -72,26 +70,7 @@ export class BeItemized extends BE {
             const val = enhancedElement[key];
             if (!val)
                 continue;
-            // const boundaries = getBounds(val, parts as PropInfoParts);
-            // const vals = [];
-            // for(let i = 0, ii = boundaries.length - 1; i< ii;  i++){
-            //     const boundary = boundaries[i];
-            //     const boundaryPlusOne = boundaries[i + 1];
-            //     const start = boundary[1];
-            //     const end = boundaryPlusOne[0];
-            //     vals.push(val.substring(start, end));
-            // }
-            const partVals = getPartVals(val, parts);
-            let cnt = 0;
-            const parsedObject = {};
-            for (const part of parts) {
-                switch (typeof part) {
-                    case 'object':
-                        parsedObject[part[0]] = partVals[cnt];
-                        cnt++;
-                        break;
-                }
-            }
+            const parsedObject = getParsedObject(val, parts);
             for (const key in parsedObject) {
                 if (scope.querySelector(`[itemprop="${key}"]`) !== null)
                     continue; //TODO check in donut

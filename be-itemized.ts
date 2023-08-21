@@ -6,8 +6,7 @@ import {register} from 'be-hive/register.js';
 import {JSONValue, Parts as PropInfoParts} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 import {arr, tryParse} from 'be-enhanced/cpu.js';
-import { PropInfoExt } from '../xtal-element/types';
-import {toParts, getBounds, getPartVals} from 'trans-render/lib/brace.js';
+import {toParts, getPartVals, getParsedObject} from 'trans-render/lib/brace.js';
 
 const cache = new Map<string, JSONValue>();
 const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
@@ -55,7 +54,6 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
 
         }
         const camelConfigArr = arr(camelConfig);
-        //const {} = camelConfigArr;
         const items: Items = {};
         for(const cc of camelConfigArr){
             const {Itemize} = cc;
@@ -65,7 +63,6 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 if(test === null) throw 'PE';//Parse Error
                 const {prop, expr} = test;
                 if(prop === undefined || expr === undefined) throw 'PE'; //Parse Error
-                //const closedBraceSplit = expr.split('}');
                 items[prop] = toParts(expr) as Parts;
             }
             
@@ -92,28 +89,7 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
             const parts = items[key];
             const val = (<any>enhancedElement)[key] as string;
             if(!val) continue;
-            // const boundaries = getBounds(val, parts as PropInfoParts);
-            // const vals = [];
-            // for(let i = 0, ii = boundaries.length - 1; i< ii;  i++){
-            //     const boundary = boundaries[i];
-            //     const boundaryPlusOne = boundaries[i + 1];
-            //     const start = boundary[1];
-            //     const end = boundaryPlusOne[0];
-            //     vals.push(val.substring(start, end));
-            // }
-            const partVals = getPartVals(val, parts as PropInfoParts);
-            let cnt = 0;
-            const parsedObject: any = {};
-            for(const part of parts){
-                switch(typeof part){
-                    case 'object':
-                        parsedObject[part[0]] = partVals[cnt];
-                        cnt++;
-                        break;
-
-                }
-            }
-            
+            const parsedObject = getParsedObject(val, parts as PropInfoParts);
             for(const key in parsedObject){
                 if(scope.querySelector(`[itemprop="${key}"]`) !== null) continue; //TODO check in donut
                 const itemprop = document.createElement('meta');

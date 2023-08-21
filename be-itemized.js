@@ -75,6 +75,9 @@ export class BeItemized extends BE {
     }
     async onCanonical(self) {
         const { canonicalConfig, enhancedElement } = self;
+        const scope = enhancedElement.closest('[itemscope]');
+        if (scope === null)
+            throw 404;
         const { items } = canonicalConfig;
         for (const key in items) {
             const parts = items[key];
@@ -103,15 +106,23 @@ export class BeItemized extends BE {
                 //console.log({start, end});
             }
             let cnt = 0;
+            const parsedObject = {};
             for (const part of parts) {
                 switch (typeof part) {
                     case 'object':
                         console.log({ prop: part[0], val: vals[cnt] });
+                        parsedObject[part[0]] = vals[cnt];
                         cnt++;
                         break;
                 }
             }
-            //console.log({vals});
+            for (const key in parsedObject) {
+                if (scope.querySelector(`[itemprop="${key}"]`) !== null)
+                    continue; //TODO check in donut
+                const itemprop = document.createElement('meta');
+                itemprop.setAttribute('itemprop', key);
+                scope.appendChild(itemprop);
+            }
         }
         return {
             resolved: true

@@ -94,6 +94,48 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
     }
 
     async onCanonical(self: this): ProPAP {
+        const {canonicalConfig, enhancedElement} = self;
+        const {items} = canonicalConfig!;
+        for(const key in items!){
+            
+            const parts = items[key];
+            const val = (<any>enhancedElement)[key] as string;
+            if(!val) continue;
+            console.log({key, parts, val});
+            let cursorPos = 0;
+            const boundaries = []
+            for(const part of parts){
+                switch(typeof part){
+                    case 'string':
+                        cursorPos = val.indexOf(part, cursorPos);
+                        boundaries.push([cursorPos, cursorPos + part.length]);
+                        cursorPos += part.length;
+                }
+            }
+            console.log({boundaries});
+            const vals = [];
+            for(let i = 0, ii = boundaries.length - 1; i< ii;  i++){
+                const boundary = boundaries[i];
+                const boundaryPlusOne = boundaries[i + 1];
+                const start = boundary[1];
+                const end = boundaryPlusOne[0];
+                vals.push(val.substring(start, end));
+                //console.log({start, end});
+            }
+            let cnt = 0;
+            
+            for(const part of parts){
+                switch(typeof part){
+                    case 'object':
+                        console.log({prop: part[0], val: vals[cnt]})
+                        cnt++;
+                        break;
+
+                }
+            }
+            //console.log({vals});
+
+        }
         return {
             resolved: true
         };

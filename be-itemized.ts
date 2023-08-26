@@ -1,7 +1,7 @@
 import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
 import {BEConfig} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
-import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig, StringOrProp, Items, Parts} from './types';
+import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig, StringOrProp, Items, Parts, ItemProp} from './types';
 import {register} from 'be-hive/register.js';
 import {JSONValue, Parts as PropInfoParts} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
@@ -88,6 +88,27 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
         };
     }
 
+    setKey(self: this, scope: Element, itemprop: ItemProp, itemVal: any){
+        let itempropEls = Array.from( scope.querySelectorAll(`[itemprop="${itemprop}"]`));//TODO check in donut
+        if(itempropEls.length === 0){
+            let elName = 'meta'
+            switch(typeof itemVal){
+                case 'boolean':
+                    elName = 'link';
+                    break;
+            }
+            const itempropEl = document.createElement(elName);
+            itempropEl.setAttribute('itemprop', itemprop);
+            itempropEl.setAttribute('be-ignored', '');
+            scope.appendChild(itempropEl);
+            itempropEls.push(itempropEl);
+        }
+        for(const itempropEl of itempropEls){
+            (<any>itempropEl).beEnhanced.by.beValueAdded.value = itemVal;
+        }  
+        
+    }
+
     onCanonical(self: this): PAP {
         const {canonicalConfig, enhancedElement} = self;
         const scope = enhancedElement.closest('[itemscope]');
@@ -95,11 +116,12 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
         if(scope === null) throw 404;
         const {items} = canonicalConfig!;
         for(const key in items!){
-            
             const partsOrItemprop = items[key];
             switch(typeof partsOrItemprop){
                 case 'string':{
                     const itemprop = partsOrItemprop;
+                    const itemVal = (<any>enhancedElement)[key];
+                    self.setKey(self, scope, itemprop, itemVal);
                 }
                 break;
                 case 'object':{
@@ -107,21 +129,13 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                     const val = (<any>enhancedElement)[key] as string;
                     if(!val) continue;
                     const parsedObject = getParsedObject(val, parts as PropInfoParts);
-                    for(const key in parsedObject){
-                        let itempropEl = scope.querySelector(`[itemprop="${key}"]`);//TODO check in donut
-                        if(itempropEl === null){
-                            itempropEl = document.createElement('meta');
-                            itempropEl.setAttribute('itemprop', key);
-                            scope.appendChild(itempropEl);
-                        }  
-                        (<any>itempropEl).beEnhanced.by.beValueAdded.value = parsedObject[key];
+                    for(const itemprop in parsedObject){
+                        const itemVal = parsedObject[itemprop];
+                        self.setKey(self, scope, itemprop, itemVal);
                     }
                 }
                 break;  
-
             }
-            
-
         }
         return {
             resolved: true

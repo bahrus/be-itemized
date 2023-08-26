@@ -5,9 +5,14 @@ import { arr, tryParse } from 'be-enhanced/cpu.js';
 import { toParts, getParsedObject } from 'trans-render/lib/brace.js';
 const cache = new Map();
 const cachedCanonicals = {};
+const prop = `(?<prop>[\w]+)`;
 const reItemizeStatements = [
     {
-        regExp: new RegExp(String.raw `(?<prop>[\w]+)(?<!\\)FromExpression(?<expr>.*)`),
+        regExp: new RegExp(String.raw `${prop}(?<!\\)FromExpression(?<expr>.*)`),
+        defaultVals: {}
+    },
+    {
+        regExp: new RegExp(String.raw `${prop}(?<!\\)PropertyAs(?<expr>[\w]+)(?<!\\)Itemprop`),
         defaultVals: {}
     }
 ];
@@ -22,7 +27,7 @@ export class BeItemized extends BE {
             camelizeOptions: {}
         };
     }
-    async camelToCanonical(self) {
+    camelToCanonical(self) {
         const { camelConfig, enhancedElement, parsedFrom } = self;
         if (parsedFrom !== undefined) {
             const canonicalConfig = cachedCanonicals[parsedFrom];
@@ -42,10 +47,15 @@ export class BeItemized extends BE {
                 const test = tryParse(item, reItemizeStatements);
                 if (test === null)
                     throw 'PE'; //Parse Error
-                const { prop, expr } = test;
-                if (prop === undefined || expr === undefined)
+                const { prop, expr, itemprop } = test;
+                if (prop === undefined || (expr === undefined && itemprop === undefined))
                     throw 'PE'; //Parse Error
-                items[prop] = toParts(expr);
+                if (expr !== undefined) {
+                    items[prop] = toParts(expr);
+                }
+                else {
+                    items[prop] = itemprop;
+                }
             }
         }
         const canonicalConfig = {
@@ -58,7 +68,26 @@ export class BeItemized extends BE {
             canonicalConfig
         };
     }
-    async onCanonical(self) {
+    setKey(self, scope, itemprop, itemVal) {
+        let itempropEls = Array.from(scope.querySelectorAll(`[itemprop="${itemprop}"]`)); //TODO check in donut
+        if (itempropEls.length === 0) {
+            let elName = 'meta';
+            switch (typeof itemVal) {
+                case 'boolean':
+                    elName = 'link';
+                    break;
+            }
+            const itempropEl = document.createElement(elName);
+            itempropEl.setAttribute('itemprop', itemprop);
+            itempropEl.setAttribute('be-ignored', '');
+            scope.appendChild(itempropEl);
+            itempropEls.push(itempropEl);
+        }
+        for (const itempropEl of itempropEls) {
+            itempropEl.beEnhanced.by.beValueAdded.value = itemVal;
+        }
+    }
+    onCanonical(self) {
         const { canonicalConfig, enhancedElement } = self;
         const scope = enhancedElement.closest('[itemscope]');
         import('be-value-added/be-value-added.js');
@@ -66,18 +95,28 @@ export class BeItemized extends BE {
             throw 404;
         const { items } = canonicalConfig;
         for (const key in items) {
-            const parts = items[key];
-            const val = enhancedElement[key];
-            if (!val)
-                continue;
-            const parsedObject = getParsedObject(val, parts);
-            for (const key in parsedObject) {
-                if (scope.querySelector(`[itemprop="${key}"]`) !== null)
-                    continue; //TODO check in donut
-                const itemprop = document.createElement('meta');
-                itemprop.setAttribute('itemprop', key);
-                scope.appendChild(itemprop);
-                itemprop.beEnhanced.by.beValueAdded.value = parsedObject[key];
+            const partsOrItemprop = items[key];
+            switch (typeof partsOrItemprop) {
+                case 'string':
+                    {
+                        const itemprop = partsOrItemprop;
+                        const itemVal = enhancedElement[key];
+                        self.setKey(self, scope, itemprop, itemVal);
+                    }
+                    break;
+                case 'object':
+                    {
+                        const parts = partsOrItemprop;
+                        const val = enhancedElement[key];
+                        if (!val)
+                            continue;
+                        const parsedObject = getParsedObject(val, parts);
+                        for (const itemprop in parsedObject) {
+                            const itemVal = parsedObject[itemprop];
+                            self.setKey(self, scope, itemprop, itemVal);
+                        }
+                    }
+                    break;
             }
         }
         return {

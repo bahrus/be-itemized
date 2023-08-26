@@ -12,7 +12,11 @@ Example 1:
 <input disabled be-itemized='
   Itemize disabled property as is vegetarian itemprop.
 '>
+```
 
+... generates:
+
+```html
 ```
 
 

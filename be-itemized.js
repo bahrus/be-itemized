@@ -12,7 +12,7 @@ const reItemizeStatements = [
         defaultVals: {}
     },
     {
-        regExp: new RegExp(String.raw `^${prop}(?<!\\)PropertyAs(?<itemprop>[\w]+)(?<!\\)Itemprop`),
+        regExp: new RegExp(String.raw `^${prop}(?<!\\)As(?<itemprop>[\w]+)`),
         defaultVals: {}
     }
 ];

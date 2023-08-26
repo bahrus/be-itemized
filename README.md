@@ -10,7 +10,7 @@ Example 1:
 
 ```html
 <input disabled be-itemized='
-  Itemize disabled property as is vegetarian itemprop.
+  Itemize disabled as is vegetarian.
 '>
 ```
 

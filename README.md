@@ -17,10 +17,10 @@ Example 1:
 ... generates:
 
 ```html
+<input disabled>
+<link be-ignored itemprop="isVegetarian" href="https://schema.org/True">
 ```
 
-
-Only adds if there is no element with itemprop=isVegetarian within itemscope scope.  Attributes ["be-value-added"](https://github.com/bahrus/be-value-added) and ["be-a-beacon"](https://github.com/bahrus/be-a-beacon) aren't actually added.  Enhancements added quietly.  *be-value-added* enhancement only added if no other be-value-added extended enhancement already present.
 
 
 Example 2:

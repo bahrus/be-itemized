@@ -18,7 +18,7 @@ Example 1:
 
 ```html
 <input disabled>
-<link be-ignored itemprop="isVegetarian" href="https://schema.org/True">
+<link itemprop="isVegetarian" href="https://schema.org/True">
 ```
 
 

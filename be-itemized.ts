@@ -99,7 +99,7 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
             }
             const itempropEl = document.createElement(elName);
             itempropEl.setAttribute('itemprop', itemprop);
-            itempropEl.setAttribute('be-ignored', '');
+            //itempropEl.setAttribute('be-ignored', '');
             scope.appendChild(itempropEl);
             itempropEls.push(itempropEl);
         }
@@ -141,6 +141,11 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
             resolved: true
         };
     }
+
+    onResolved(self: this): void {
+        const {enhancedElement} = self;
+        (<any>enhancedElement).beEnhanced.whenDetached('be-itemized');
+    }
 }
 
 export interface BeItemized extends AllProps{}
@@ -161,7 +166,8 @@ const xe = new XE<AP, Actions>({
         },
         actions: {
             camelToCanonical: 'camelConfig',
-            onCanonical: 'canonicalConfig'
+            onCanonical: 'canonicalConfig',
+            onResolved: 'resolved'
         }
     },
     superclass: BeItemized

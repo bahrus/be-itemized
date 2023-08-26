@@ -79,7 +79,7 @@ export class BeItemized extends BE {
             }
             const itempropEl = document.createElement(elName);
             itempropEl.setAttribute('itemprop', itemprop);
-            itempropEl.setAttribute('be-ignored', '');
+            //itempropEl.setAttribute('be-ignored', '');
             scope.appendChild(itempropEl);
             itempropEls.push(itempropEl);
         }
@@ -123,6 +123,10 @@ export class BeItemized extends BE {
             resolved: true
         };
     }
+    onResolved(self) {
+        const { enhancedElement } = self;
+        enhancedElement.beEnhanced.whenDetached('be-itemized');
+    }
 }
 const tagName = 'be-itemized';
 const ifWantsToBe = 'be-itemized';
@@ -139,7 +143,8 @@ const xe = new XE({
         },
         actions: {
             camelToCanonical: 'camelConfig',
-            onCanonical: 'canonicalConfig'
+            onCanonical: 'canonicalConfig',
+            onResolved: 'resolved'
         }
     },
     superclass: BeItemized

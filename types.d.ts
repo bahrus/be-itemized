@@ -43,4 +43,5 @@ export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>]
 export interface Actions{
     camelToCanonical(self: this): PAP;
     onCanonical(self: this): PAP;
+    onResolved(self: this): void;
 }

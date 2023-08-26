@@ -21,6 +21,17 @@ Example 1:
 <link itemprop="isVegetarian" href="https://schema.org/True">
 ```
 
+Slight shorthand:
+
+Example 1a:
+
+```html
+<input disabled be-itemized='
+  ^ disabled as is vegetarian.
+'>
+```
+
+also works.
 
 
 Example 2:

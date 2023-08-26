@@ -24,7 +24,8 @@ export class BeItemized extends BE {
             cache,
             primaryPropReq: true,
             parseAndCamelize: true,
-            camelizeOptions: {}
+            camelizeOptions: {},
+            defaultBucket: 'Itemize'
         };
     }
     camelToCanonical(self) {

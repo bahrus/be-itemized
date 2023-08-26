@@ -43,7 +43,8 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
             parseAndCamelize: true,
             camelizeOptions:{
 
-            }
+            },
+            defaultBucket: 'Itemize'
         } as BEConfig<CamelConfig>;
     }
 

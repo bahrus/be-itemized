@@ -53,16 +53,17 @@ results in:
       Join {protocol}://{domain}/{articleType}/{language}/{language}-{classes}/#{section} as href.
   "
   >Basic, Improved - Prototype Definition</a>
-  <meta itemprop=protocol content=https be-value-added>
-  <meta itemprop=domain content=docs.joshatz.com be-value-added>
-  <meta itemprop=articleType content=cheatsheets be-value-added>
-  <meta itemprop=language content=js be-value-added>
-  <meta itemprop=topic content=classes be-value-added>
-  <meta itemprop=section content=basic-improved---prototype-definition be-value-added>
+  <meta itemprop=protocol content=https>
+  <meta itemprop=domain content=docs.joshatz.com>
+  <meta itemprop=articleType content=cheatsheets>
+  <meta itemprop=language content=js>
+  <meta itemprop=topic content=classes>
+  <meta itemprop=section content=basic-improved---prototype-definition>
 </div>
 ```
 
-be-exported means declarative web component will expose property / attribute to be passed in externally.
+[TODO] Bug:  section not getting set properly
+
 
 
 

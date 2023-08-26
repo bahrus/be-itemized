@@ -11,15 +11,15 @@ import {toParts, getPartVals, getParsedObject} from 'trans-render/lib/brace.js';
 const cache = new Map<string, JSONValue>();
 const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
 
-const prop = `(?<prop>[\w]+)`;
+const prop = String.raw `(?<prop>[\w]+)`;
 
 const reItemizeStatements: RegExpOrRegExpExt<PIS>[] = [
     {
-        regExp: new RegExp(String.raw `${prop}(?<!\\)FromExpression(?<expr>.*)`),
+        regExp: new RegExp(String.raw `^${prop}(?<!\\)FromExpression(?<expr>.*)`),
         defaultVals:{}
     },
     {
-        regExp: new RegExp(String.raw `${prop}(?<!\\)PropertyAs(?<expr>[\w]+)(?<!\\)Itemprop`),
+        regExp: new RegExp(String.raw `^${prop}(?<!\\)PropertyAs(?<itemprop>[\w]+)(?<!\\)Itemprop`),
         defaultVals:{}
     }
 ];

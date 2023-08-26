@@ -39,7 +39,7 @@ Example 2:
 ```html
 <div itemscope>
   <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized="
-    Itemize href from expression {protocol as text be-exported}://{domain}/{articleType}/{language}/{language}-{classes}/#{section}.
+    Itemize href from expression {protocol}://{domain}/{articleType}/{language}/{language}-{classes}/#{section}.
   "
   >Basic, Improved - Prototype Definition</a>
 </div>
@@ -49,9 +49,7 @@ results in:
 
 ```html
 <div itemscope>
-  <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-joined="
-      Join {protocol}://{domain}/{articleType}/{language}/{language}-{classes}/#{section} as href.
-  "
+  <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition
   >Basic, Improved - Prototype Definition</a>
   <meta itemprop=protocol content=https>
   <meta itemprop=domain content=docs.joshatz.com>

@@ -39,7 +39,7 @@ Example 2:
 ```html
 <div itemscope>
   <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized="
-    Itemize href from expression {protocol}://{domain}/{articleType}/{language}/{language}-{classes}/#{section}.
+    Itemize href from expression {protocol}://{domain}/{articleType}/{language}/{language}-{topic}/#{section}.
   "
   >Basic, Improved - Prototype Definition</a>
 </div>
@@ -60,7 +60,6 @@ results in:
 </div>
 ```
 
-[TODO] Bug:  section not getting set properly set.
 
 
 

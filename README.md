@@ -1,4 +1,4 @@
-# be-itemized [TODO]
+# be-itemized [WIP]
 
 ## Use case
 
@@ -10,7 +10,7 @@ Example 1:
 
 ```html
 <input disabled be-itemized='
-  Itemize is vegetarian from disabled.
+  Itemize disabled property as is vegetarian itemprop.
 '>
 
 ```
@@ -22,28 +22,29 @@ Only adds if there is no element with itemprop=isVegetarian within itemscope sco
 Example 2:
 
 ```html
-<a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized="
-  Itemize href from expression {protocol as text be-exported}://{domain}/{articleType}/{language}/{language}-{classes}/#{section}.
-"
->Basic, Improved - Prototype Definition</a>
+<div itemscope>
+  <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized="
+    Itemize href from expression {protocol as text be-exported}://{domain}/{articleType}/{language}/{language}-{classes}/#{section}.
+  "
+  >Basic, Improved - Prototype Definition</a>
+</div>
 ```
 
 results in:
 
 ```html
-<meta itemprop=protocol content=https be-value-added='{
-  "beExported": true
-}' itemtype=https://schema.org/Text>
-<meta itemprop=domain content=docs.joshatz.com>
-<meta itemprop=articleType content=cheatsheets>
-<meta itemprop=language content=js>
-<meta itemprop=topic content=classes>
-<meta itemprop=section content=basic-improved---prototype-definition>
-<a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-joined="
-    Join {protocol}://{domain}/{articleType}/{language}/{language}-{classes}/#{section} as href.
-"
->Basic, Improved - Prototype Definition</a>
-
+<div itemscope>
+  <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-joined="
+      Join {protocol}://{domain}/{articleType}/{language}/{language}-{classes}/#{section} as href.
+  "
+  >Basic, Improved - Prototype Definition</a>
+  <meta itemprop=protocol content=https be-value-added>
+  <meta itemprop=domain content=docs.joshatz.com be-value-added>
+  <meta itemprop=articleType content=cheatsheets be-value-added>
+  <meta itemprop=language content=js be-value-added>
+  <meta itemprop=topic content=classes be-value-added>
+  <meta itemprop=section content=basic-improved---prototype-definition be-value-added>
+</div>
 ```
 
 be-exported means declarative web component will expose property / attribute to be passed in externally.

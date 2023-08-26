@@ -11,12 +11,16 @@ import {toParts, getPartVals, getParsedObject} from 'trans-render/lib/brace.js';
 const cache = new Map<string, JSONValue>();
 const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
 
+const prop = `(?<prop>[\w]+)`;
+
 const reItemizeStatements: RegExpOrRegExpExt<PIS>[] = [
     {
-        regExp: new RegExp(String.raw `(?<prop>[\w]+)(?<!\\)FromExpression(?<expr>.*)`),
-        defaultVals:{
-
-        }
+        regExp: new RegExp(String.raw `${prop}(?<!\\)FromExpression(?<expr>.*)`),
+        defaultVals:{}
+    },
+    {
+        regExp: new RegExp(String.raw `${prop}(?<!\\)PropertyAs(?<expr>[\w]+)(?<!\\)Itemprop`),
+        defaultVals:{}
     }
 ];
 
@@ -24,6 +28,7 @@ const reItemizeStatements: RegExpOrRegExpExt<PIS>[] = [
 interface ItemizeStatement{
     prop: string,
     expr: string,
+    itemprop: string,
 }
 
 type PIS = Partial<ItemizeStatement>;
@@ -42,7 +47,7 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
         } as BEConfig<CamelConfig>;
     }
 
-    async camelToCanonical(self: this): ProPAP {
+    camelToCanonical(self: this): PAP {
         const {camelConfig, enhancedElement, parsedFrom} = self;
         if(parsedFrom !== undefined) {
             const canonicalConfig = cachedCanonicals[parsedFrom];
@@ -61,9 +66,14 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
             for(const item of Itemize){
                 const test = tryParse(item, reItemizeStatements) as ItemizeStatement;
                 if(test === null) throw 'PE';//Parse Error
-                const {prop, expr} = test;
-                if(prop === undefined || expr === undefined) throw 'PE'; //Parse Error
-                items[prop] = toParts(expr) as Parts;
+                const {prop, expr, itemprop} = test;
+                if(prop === undefined || (expr === undefined && itemprop === undefined)) throw 'PE'; //Parse Error
+                if(expr !== undefined){
+                    items[prop] = toParts(expr) as Parts;
+                }else{
+                    items[prop] = itemprop;
+                }
+                
             }
             
         }
@@ -78,7 +88,7 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
         };
     }
 
-    async onCanonical(self: this): ProPAP {
+    onCanonical(self: this): PAP {
         const {canonicalConfig, enhancedElement} = self;
         const scope = enhancedElement.closest('[itemscope]');
         import('be-value-added/be-value-added.js');
@@ -86,17 +96,31 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
         const {items} = canonicalConfig!;
         for(const key in items!){
             
-            const parts = items[key];
-            const val = (<any>enhancedElement)[key] as string;
-            if(!val) continue;
-            const parsedObject = getParsedObject(val, parts as PropInfoParts);
-            for(const key in parsedObject){
-                if(scope.querySelector(`[itemprop="${key}"]`) !== null) continue; //TODO check in donut
-                const itemprop = document.createElement('meta');
-                itemprop.setAttribute('itemprop', key);
-                scope.appendChild(itemprop);
-                (<any>itemprop).beEnhanced.by.beValueAdded.value = parsedObject[key];
+            const partsOrItemprop = items[key];
+            switch(typeof partsOrItemprop){
+                case 'string':{
+                    const itemprop = partsOrItemprop;
+                }
+                break;
+                case 'object':{
+                    const parts = partsOrItemprop;
+                    const val = (<any>enhancedElement)[key] as string;
+                    if(!val) continue;
+                    const parsedObject = getParsedObject(val, parts as PropInfoParts);
+                    for(const key in parsedObject){
+                        let itempropEl = scope.querySelector(`[itemprop="${key}"]`);//TODO check in donut
+                        if(itempropEl === null){
+                            itempropEl = document.createElement('meta');
+                            itempropEl.setAttribute('itemprop', key);
+                            scope.appendChild(itempropEl);
+                        }  
+                        (<any>itempropEl).beEnhanced.by.beValueAdded.value = parsedObject[key];
+                    }
+                }
+                break;  
+
             }
+            
 
         }
         return {

@@ -20,13 +20,15 @@ export interface CanonicalConfig {
     items?: Items,
 }
 
-export type Items = {[key: NameOfProp]: Parts};
+export type Items = {[key: NameOfProp]: Parts | ItemProp};
 
 export type ConstString = String;
 
 export type NameOfProp = string;
 
 export type StringOrProp = ConstString | [NameOfProp, PropInfoExt];
+
+export type ItemProp = string;
 
 export type Parts = Array<StringOrProp>;
 
@@ -39,6 +41,6 @@ export type ProPAP = Promise<PAP>;
 export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>]
 
 export interface Actions{
-    camelToCanonical(self: this): ProPAP;
-    onCanonical(self: this): ProPAP;
+    camelToCanonical(self: this): PAP;
+    onCanonical(self: this): PAP;
 }

@@ -62,7 +62,7 @@ results in:
 </div>
 ```
 
-[TODO] Bug:  section not getting set properly
+[TODO] Bug:  section not getting set properly set.
 
 
 

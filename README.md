@@ -1,4 +1,4 @@
-# be-itemized
+# be-itemized [WIP]
 
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-itemized?style=for-the-badge)](https://bundlephobia.com/result?p=be-itemized)
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-itemized?compression=gzip">
@@ -43,7 +43,7 @@ Example 2:
 ```html
 <div itemscope>
   <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized="
-    Itemize href from expression {protocol}://{domain}/{articleType}/{language}/{language}-{topic}/#{section}.
+    Itemize href from expression {|protocol}://{|domain}/{|articleType}/{&language}/{|language}-{&|topic}/#{section}.
   "
   >Basic, Improved - Prototype Definition</a>
 </div>

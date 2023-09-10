@@ -42,9 +42,15 @@ Example 2:
 
 ```html
 <div itemscope>
-  <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized="
-    Itemize href from expression {|protocol}://{|domain}/{|articleType}/{&language}/{|language}-{&|topic}/#{section}.
-  "
+  <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized='
+    Itemize href from expression
+    [0, 5, "protocol"]
+    [8, 12, "domain"]
+    [13, 24, "articleType"]
+    [25, 27, "language", "|#"]
+    [31, 38, "topic"]
+    [40, 77, "section"].
+  '
   >Basic, Improved - Prototype Definition</a>
 </div>
 ```

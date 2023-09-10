@@ -20,6 +20,12 @@ export interface CanonicalConfig {
     items?: Items,
 }
 
+export type Partition = [number, number, `${Tags}${NameOfProp}${Types}`];
+
+export type Tags = '|' | '&' | '|&' | '|&#' | '&#' | '';
+
+export type Types = ' as number' | ' as boolean' | ' as date' | ' as string' | '';
+
 export type Items = {[key: NameOfProp]: Parts | ItemProp};
 
 export type ConstString = String;

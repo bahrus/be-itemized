@@ -43,12 +43,12 @@ Example 2:
 ```html
 <div itemscope>
   <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized='
-    Itemize href from expression
-    [0, 5, "protocol"]
-    [8, 12, "domain"]
-    [13, 24, "articleType"]
-    [25, 27, "language", "|#"]
-    [31, 38, "topic"]
+    Itemize href via
+    [0, 5, "protocol"],
+    [8, 12, "domain"],
+    [13, 24, "articleType"],
+    [25, 27, "|&language"],
+    [31, 38, "topic"],
     [40, 77, "section"].
   '
   >Basic, Improved - Prototype Definition</a>
@@ -60,11 +60,15 @@ results in:
 ```html
 <div itemscope>
   <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition
+  be-joined='
+  Join expression ["", "protocol", "://", "domain", "/", "articleType", "/", "language", "/", "language", "-", "topic", "/#", "section"] as href.
+  '
   >Basic, Improved - Prototype Definition</a>
   <meta itemprop=protocol content=https>
   <meta itemprop=domain content=docs.joshatz.com>
   <meta itemprop=articleType content=cheatsheets>
   <meta itemprop=language content=js>
+  <input name=language value=js>
   <meta itemprop=topic content=classes>
   <meta itemprop=section content=basic-improved---prototype-definition>
 </div>

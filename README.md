@@ -43,11 +43,11 @@ Example 2:
 ```html
 <div itemscope>
   <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized='
-    Itemize href via
+    ^ href via
     [0, 5, "protocol"],
     [8, 12, "domain"],
     [13, 24, "articleType"],
-    [25, 27, "|&language"],
+    [25, 27, "&language"],
     [31, 38, "topic"],
     [40, 77, "section"].
   '

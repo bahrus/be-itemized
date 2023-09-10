@@ -143,9 +143,10 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                     if(!val) continue;
                     const partitions = partsOrItemprop;
                     for(const partition of partitions){
-                        const [start, end] = partition;
+                        const [start, end, itemprop] = partition;
                         const itemVal = val.substring(start, end);
                         console.log({itemVal});
+                        self.setKey(self, scope, itemprop, itemVal);
                     }
                 }
                 break;  

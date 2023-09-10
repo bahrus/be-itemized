@@ -20,7 +20,7 @@ export interface CanonicalConfig {
     items?: Items,
 }
 
-export type Partition = [number, number, `${TagsAttrs}${NameOfProp}${Types}`];
+export type Partition = [start: number, end: number, `${TagsAttrs}${NameOfProp}${Types}`];
 
 export type TagsAttrs = '|&' | '&' | '&#' | '';
 

@@ -74,7 +74,7 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 const {prop, expr, itemprop} = test;
                 if(prop === undefined || (expr === undefined && itemprop === undefined)) throw 'PE'; //Parse Error
                 if(expr !== undefined){
-                    items[prop] = JSON.parse(expr) as Partition[] //expr;
+                    items[prop] = JSON.parse(`[${expr}]`) as Partition[] //expr;
                 }else{
                     items[prop] = itemprop;
                 }
@@ -130,6 +130,7 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 }
                 break;
                 case 'object':{
+                    //debugger;
                     // const parts = partsOrItemprop;
                     // const val = (<any>enhancedElement)[key] as string;
                     // if(!val) continue;
@@ -138,6 +139,14 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                     //     const itemVal = parsedObject[itemprop];
                     //     self.setKey(self, scope, itemprop, itemVal);
                     // }
+                    const val = (<any>enhancedElement)[key] as string;
+                    if(!val) continue;
+                    const partitions = partsOrItemprop;
+                    for(const partition of partitions){
+                        const [start, end] = partition;
+                        const itemVal = val.substring(start, end);
+                        console.log({itemVal});
+                    }
                 }
                 break;  
             }

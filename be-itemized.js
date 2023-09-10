@@ -2,13 +2,12 @@ import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 import { arr, tryParse } from 'be-enhanced/cpu.js';
-import { toParts, getParsedObject } from 'trans-render/lib/brace.js';
 const cache = new Map();
 const cachedCanonicals = {};
 const prop = String.raw `(?<prop>[\w]+)`;
 const reItemizeStatements = [
     {
-        regExp: new RegExp(String.raw `^${prop}(?<!\\)FromExpression(?<expr>.*)`),
+        regExp: new RegExp(String.raw `^${prop}(?<!\\)Via(?<expr>.*)`),
         defaultVals: {}
     },
     {
@@ -52,7 +51,7 @@ export class BeItemized extends BE {
                 if (prop === undefined || (expr === undefined && itemprop === undefined))
                     throw 'PE'; //Parse Error
                 if (expr !== undefined) {
-                    items[prop] = toParts(expr);
+                    items[prop] = JSON.parse(`[${expr}]`); //expr;
                 }
                 else {
                     items[prop] = itemprop;
@@ -107,13 +106,14 @@ export class BeItemized extends BE {
                     break;
                 case 'object':
                     {
-                        const parts = partsOrItemprop;
                         const val = enhancedElement[key];
                         if (!val)
                             continue;
-                        const parsedObject = getParsedObject(val, parts);
-                        for (const itemprop in parsedObject) {
-                            const itemVal = parsedObject[itemprop];
+                        const partitions = partsOrItemprop;
+                        for (const partition of partitions) {
+                            const [start, end, itemprop] = partition;
+                            const itemVal = val.substring(start, end);
+                            console.log({ itemVal });
                             self.setKey(self, scope, itemprop, itemVal);
                         }
                     }

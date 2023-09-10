@@ -1,12 +1,15 @@
 import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
 import {BEConfig} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
-import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig, StringOrProp, Items, Parts, ItemProp} from './types';
+import {
+    Actions, AllProps, AP, PAP, ProPAP, POA, 
+    CamelConfig, CanonicalConfig, Items, ItemProp,
+    Partition
+} from './types';
 import {register} from 'be-hive/register.js';
 import {JSONValue, Parts as PropInfoParts} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 import {arr, tryParse} from 'be-enhanced/cpu.js';
-import {toParts, getPartVals, getParsedObject} from 'trans-render/lib/brace.js';
 
 const cache = new Map<string, JSONValue>();
 const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
@@ -15,7 +18,7 @@ const prop = String.raw `(?<prop>[\w]+)`;
 
 const reItemizeStatements: RegExpOrRegExpExt<PIS>[] = [
     {
-        regExp: new RegExp(String.raw `^${prop}(?<!\\)FromExpression(?<expr>.*)`),
+        regExp: new RegExp(String.raw `^${prop}(?<!\\)Via(?<expr>.*)`),
         defaultVals:{}
     },
     {
@@ -70,7 +73,7 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 const {prop, expr, itemprop} = test;
                 if(prop === undefined || (expr === undefined && itemprop === undefined)) throw 'PE'; //Parse Error
                 if(expr !== undefined){
-                    items[prop] = toParts(expr) as Parts;
+                    items[prop] = JSON.parse(`[${expr}]`) as Partition[] //expr;
                 }else{
                     items[prop] = itemprop;
                 }
@@ -126,12 +129,13 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 }
                 break;
                 case 'object':{
-                    const parts = partsOrItemprop;
                     const val = (<any>enhancedElement)[key] as string;
                     if(!val) continue;
-                    const parsedObject = getParsedObject(val, parts as PropInfoParts);
-                    for(const itemprop in parsedObject){
-                        const itemVal = parsedObject[itemprop];
+                    const partitions = partsOrItemprop;
+                    for(const partition of partitions){
+                        const [start, end, itemprop] = partition;
+                        const itemVal = val.substring(start, end);
+                        console.log({itemVal});
                         self.setKey(self, scope, itemprop, itemVal);
                     }
                 }

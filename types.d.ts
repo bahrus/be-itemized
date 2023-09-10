@@ -32,11 +32,11 @@ export type ConstString = String;
 
 export type NameOfProp = string;
 
-export type StringOrProp = ConstString | Partition[];
+//export type StringOrProp = ConstString | Partition[];
 
 export type ItemProp = string;
 
-export type Parts = Array<StringOrProp>;
+//export type Parts = Array<StringOrProp>;
 
 export type AP = AllProps;
 

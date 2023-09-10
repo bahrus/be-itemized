@@ -8,7 +8,7 @@
 		"strict": true,
 	},
 	"files":[
-		"be-itemized2.ts"
+		"be-itemized.ts"
 	],
 	"exclude":[
 		"node_modules"

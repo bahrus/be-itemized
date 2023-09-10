@@ -26,13 +26,13 @@ export type TagsAttrs = '|&' | '&' | '&#' | '';
 
 export type Types = ' as number' | ' as boolean' | ' as date' | ' as string' | '';
 
-export type Items = {[key: NameOfProp]: Parts | ItemProp};
+export type Items = {[key: NameOfProp]: Partition[] | ItemProp};
 
 export type ConstString = String;
 
 export type NameOfProp = string;
 
-export type StringOrProp = ConstString | [NameOfProp, PropInfoExt];
+export type StringOrProp = ConstString | Partition[];
 
 export type ItemProp = string;
 

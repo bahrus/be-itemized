@@ -68,7 +68,7 @@ export class BeItemized extends BE {
             canonicalConfig
         };
     }
-    setKey(self, scope, itemprop, itemVal) {
+    #addMicrodataElement(self, scope, itemprop, itemVal) {
         let itempropEls = Array.from(scope.querySelectorAll(`[itemprop="${itemprop}"]`)); //TODO check in donut
         if (itempropEls.length === 0) {
             let elName = 'meta';
@@ -87,6 +87,15 @@ export class BeItemized extends BE {
             itempropEl.beEnhanced.by.beValueAdded.value = itemVal;
         }
     }
+    #addFieldElement(self, scope, itemprop, itemVal) {
+        let formEl = scope.querySelector(`[name="${itemprop}"]`);
+        if (formEl === null) {
+            formEl = document.createElement('input');
+            formEl.name = itemprop;
+            scope.appendChild(formEl);
+        }
+        formEl.value = itemVal;
+    }
     onCanonical(self) {
         const { canonicalConfig, enhancedElement } = self;
         const scope = enhancedElement.closest('[itemscope]');
@@ -101,7 +110,7 @@ export class BeItemized extends BE {
                     {
                         const itemprop = partsOrItemprop;
                         const itemVal = enhancedElement[key];
-                        self.setKey(self, scope, itemprop, itemVal);
+                        self.#addMicrodataElement(self, scope, itemprop, itemVal);
                     }
                     break;
                 case 'object':
@@ -111,10 +120,14 @@ export class BeItemized extends BE {
                             continue;
                         const partitions = partsOrItemprop;
                         for (const partition of partitions) {
-                            const [start, end, itemprop] = partition;
+                            let [start, end, itemprop] = partition;
                             const itemVal = val.substring(start, end);
-                            console.log({ itemVal });
-                            self.setKey(self, scope, itemprop, itemVal);
+                            console.log({ itemprop, itemVal });
+                            if (itemprop.includes('&')) {
+                                itemprop = itemprop.replace('&', '');
+                                this.#addFieldElement(self, scope, itemprop, itemVal);
+                            }
+                            self.#addMicrodataElement(self, scope, itemprop, itemVal);
                         }
                     }
                     break;

@@ -4,24 +4,45 @@ import { register } from 'be-hive/register.js';
 import { lispToCamel } from 'trans-render/lib/lispToCamel.js';
 export class BeItemized extends BE {
     async attach(enhancedElement, enhancementInfo) {
+        super.attach(enhancedElement, enhancementInfo);
         const { attributes } = enhancedElement;
         for (const attrib of attributes) {
             const { name, value } = attrib;
             if (name.startsWith('-') && value.length > 0) {
-                const propName = lispToCamel(name.substring(1));
-                if (propName in enhancedElement) {
-                    const propVal = enhancedElement[propName];
+                const localPropName = lispToCamel(name.substring(1));
+                if (localPropName in enhancedElement) {
+                    const propVal = enhancedElement[localPropName];
                     switch (typeof propVal) {
                         case 'boolean':
-                            this.#doBoolean(this, propName, propVal);
+                            this.#doBoolean(this, value, propVal);
                             break;
                     }
-                    console.log({ propVal, propName });
+                    console.log({ propVal, propName: localPropName });
                 }
             }
         }
     }
+    #scope;
+    get scope() {
+        if (this.#scope !== undefined) {
+            const sc = this.#scope.deref();
+            if (sc !== undefined)
+                return sc;
+        }
+        const sc = this.enhancedElement.closest('[itemscope]');
+        if (sc === null)
+            throw 404;
+        this.#scope = new WeakRef(sc);
+        return sc;
+    }
     #doBoolean(self, propName, propVal) {
+        const { scope } = self;
+        if (scope.querySelector(`[itemprop=${propName}]`) === null) { //TODO:  donut
+            const itempropEl = document.createElement('link');
+            itempropEl.setAttribute('itemprop', propName);
+            itempropEl.href = 'https://schema.org/' + (propVal ? 'True' : 'False');
+            scope.appendChild(itempropEl);
+        }
     }
 }
 const tagName = 'be-itemized';

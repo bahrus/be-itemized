@@ -47,7 +47,7 @@ Example 2a:
 <div itemscope>
   <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition
    -href="{protocol}://{domain}/{@articleType}/{language}/{language}-{topic}/#{section}"    
-   be-itemized='from href.'
+   be-itemized
   >Basic, Improved - Prototype Definition</a>
   <select name=articleType>
         <option>cheatsheets</option>
@@ -55,8 +55,6 @@ Example 2a:
   </select>
 </div>
 ```
-
-selects cheatsheets, bindds back from the selet.
 
 results in:
 
@@ -78,6 +76,8 @@ results in:
   <meta -- itemprop=section content=basic-improved---prototype-definition>
 </div>
 ```
+
+Changes to the select element will feed back into the href for the hyperink.
 
 ## Running locally
 

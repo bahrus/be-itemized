@@ -40,7 +40,7 @@ Again, the input element is only generated if no element with attribute name="is
 
 Modifying the checkbox will affect the input's disabled status (but not the other way around).
 
-
+be-itemized's functionality is almost identical to be-observant, and (likely) uses be-observant under the hood.  So if editing the HTML by hand, it might be just as effective to use be-observant directly for the use case above.
 
 ## Example 2a: [TODO]
 

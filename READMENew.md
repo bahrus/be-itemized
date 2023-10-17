@@ -61,8 +61,8 @@ results in:
 ```html
 <div itemscope>
   <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition
-  -href="{protocol}://{domain}/{articleType}/{language}/{language}-{topic}/#{section}"
-  be-itemized='from href'
+  -href="{protocol}://{domain}/{@articleType}/{language}/{language}-{topic}/#{section}"
+  be-itemized
   >Basic, Improved - Prototype Definition</a>
     <select name=articleType>
         <option selected>cheatsheets</option>

@@ -8,6 +8,11 @@
 
 Make server rendered html attributes generate and/or bind to  microdata and form elements.
 
+Binding to microdata is useful for
+
+1.  Styling
+2.  Providing declarative custom elements.
+
 > [!Note]
 > This element enhancement would probably be most effective if it could be partly applied in a Cloudflare or Bun or Deno worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
 

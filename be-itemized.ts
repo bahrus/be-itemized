@@ -14,10 +14,17 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 const propName = lispToCamel(name.substring(1));
                 if(propName in enhancedElement){
                     const propVal = (<any>enhancedElement)[propName];
+                    switch(typeof propVal){
+                        
+                    }
                     console.log({propVal, propName});
                 }
             }
         }
+    }
+
+    doBinary(){
+
     }
 }
 

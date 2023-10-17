@@ -11,10 +11,14 @@ export class BeItemized extends BE {
                 const propName = lispToCamel(name.substring(1));
                 if (propName in enhancedElement) {
                     const propVal = enhancedElement[propName];
+                    switch (typeof propVal) {
+                    }
                     console.log({ propVal, propName });
                 }
             }
         }
+    }
+    doBinary() {
     }
 }
 const tagName = 'be-itemized';

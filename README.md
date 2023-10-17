@@ -11,22 +11,24 @@ Make server rendered html attributes generate and/or bind to  microdata and form
 ## Example 1a: [TODO]
 
 ```html
-<input disabled -disabled={isVegetarian} be-itemized>
+<input disabled -disabled=isVegetarian be-itemized>
 ```
 
 ... generates:
 
 ```html
-<input disabled -disabled={isVegetarian} be-itemized>
+<input disabled -disabled=isVegetarian be-itemized>
 <link -- itemprop="isVegetarian" href="https://schema.org/True">
 ```
 
 The link element is only generated if no element with attribute itemprop="isVegetarian" is found within the itemscope (css) scope.  
 
+However, if not immediately found, it will wait for the itemscope'd element to perceive event named "i-am-here" which is the default name of the event emitted by [be-a-beacon](https://github.com/bahrus/be-a-beacon).
+
 ## Example 1b: [TODO]
 
 ```html
-<input disabled -disabled={@isVegetarian} be-itemized>
+<input disabled -disabled=@isVegetarian be-itemized>
 ```
 
 generates:

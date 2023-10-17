@@ -6,52 +6,50 @@
 
 ## Use case
 
-Make server rendered html generate microdata.
+Make server rendered html attributes generate and/or bind to  microdata and form elements.
 
-After resolving, detaches, and attaches [be-joined](https://github.com/bahrus/be-joined).
-
-Example 1:
+Example 1a:
 
 ```html
-<input disabled be-itemized='
-  Itemize disabled as is vegetarian.
-'>
+<input disabled -disabled={isVegetarian} be-itemized>
 ```
 
 ... generates:
 
 ```html
-<input disabled>
+<input disabled -disabled={isVegetarian} be-itemized>
 <link -- itemprop="isVegetarian" href="https://schema.org/True">
 ```
 
-Slight shorthand:
-
-Example 1a:
+Example 1b:
 
 ```html
-<input disabled be-itemized='
-  ^ disabled as is vegetarian.
-'>
+<input disabled -disabled={@isVegetarian} be-itemized>
 ```
 
-also works.
+generates:
+
+```html
+<input disabled -disabled={@isVegetarian} be-itemized>
+<input type=checkbox name=isVegetarian checked>
+```
+
+Modifying the checkbox will affect the input's disabled status (but not the other way around).
 
 
-Example 2:
+
+Example 2a:
 
 ```html
 <div itemscope>
-  <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition be-itemized='
-    ^ href via
-    [0, 5, "protocol"],
-    [8, 12, "domain"],
-    [13, 24, "articleType"],
-    [25, 27, "&language"],
-    [31, 38, "topic"],
-    [40, 77, "section"].
-  '
+  <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition
+   -href="{protocol}://{domain}/{@articleType}/{language}/{language}-{topic}/#{section}"    
+   be-itemized
   >Basic, Improved - Prototype Definition</a>
+  <select name=articleType>
+        <option>cheatsheets</option>
+        <option>dissertations</option>
+  </select>
 </div>
 ```
 
@@ -59,20 +57,24 @@ results in:
 
 ```html
 <div itemscope>
-  <a href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition
-  be-joined='
-  Join expression ["", "protocol", "://", "domain", "/", "articleType", "/", "language", "/", "language", "-", "topic", "/#", "section"] as href.
-  '
+  <a 
+    href=https://docs.joshuatz.com/cheatsheets/js/js-classes/#basic-improved---prototype-definition
+    -href="{protocol}://{domain}/{@articleType}/{language}/{language}-{topic}/#{section}" be-itemized
   >Basic, Improved - Prototype Definition</a>
-  <meta itemprop=protocol content=https>
-  <meta itemprop=domain content=docs.joshatz.com>
-  <meta itemprop=articleType content=cheatsheets>
-  <meta itemprop=language content=js>
-  <input name=language value=js>
-  <meta itemprop=topic content=classes>
-  <meta itemprop=section content=basic-improved---prototype-definition>
+    <select name=articleType>
+        <option selected>cheatsheets</option>
+        <option>dissertations</option>
+  </select>
+  <meta -- itemprop=protocol content=https>
+  <meta -- itemprop=domain content=docs.joshatz.com>
+  <meta -- itemprop=language content=js>
+  <input -- name=language value=js>
+  <meta -- itemprop=topic content=classes>
+  <meta -- itemprop=section content=basic-improved---prototype-definition>
 </div>
 ```
+
+Changes to the select element will feed back into the href for the hyperlink.
 
 ## Running locally
 

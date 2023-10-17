@@ -1,5 +1,5 @@
 import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
-import {BEConfig} from 'be-enhanced/types';
+import {BEConfig, RegExpOrRegExpExt} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
 import {
     Actions, AllProps, AP, PAP, ProPAP, POA, 
@@ -7,8 +7,7 @@ import {
     Partition
 } from './types';
 import {register} from 'be-hive/register.js';
-import {JSONValue, Parts as PropInfoParts} from 'trans-render/lib/types';
-import {RegExpOrRegExpExt} from 'be-enhanced/types';
+import {JSONValue} from 'trans-render/lib/types';
 import {arr, tryParse} from 'be-enhanced/cpu.js';
 
 const cache = new Map<string, JSONValue>();

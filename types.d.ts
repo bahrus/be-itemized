@@ -2,6 +2,7 @@ import { ActionOnEventConfigs } from "trans-render/froop/types";
 import {IBE} from 'be-enhanced/types';
 import {PropInfoExt} from 'xtal-element/types';
 
+
 export interface EndUserProps extends IBE{
     camelConfig?: CamelConfig,
 }
@@ -9,7 +10,7 @@ export interface EndUserProps extends IBE{
 export type ItemizeStatement = string;
 
 export interface CamelConfig{
-    Itemize?: Array<ItemizeStatement>
+    Itemize?: Array<ItemizeStatement>,
 }
 
 export interface AllProps extends EndUserProps{
@@ -26,17 +27,13 @@ export type TagsAttrs = '|&' | '&' | '&#' | '';
 
 export type Types = ' as number' | ' as boolean' | ' as date' | ' as string' | '';
 
-export type Items = {[key: NameOfProp]: Partition[] | ItemProp};
+export type Items = {[key: NameOfProp]: Array<Partition> | ItemProp};
 
 export type ConstString = String;
 
 export type NameOfProp = string;
 
-//export type StringOrProp = ConstString | Partition[];
-
 export type ItemProp = string;
-
-//export type Parts = Array<StringOrProp>;
 
 export type AP = AllProps;
 

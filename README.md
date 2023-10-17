@@ -21,6 +21,8 @@ Example 1a:
 <link -- itemprop="isVegetarian" href="https://schema.org/True">
 ```
 
+The link element is only generated if no element with attribute itemprop="isVegetarian" is found within the itemscope (css) scope.  
+
 Example 1b:
 
 ```html
@@ -33,6 +35,8 @@ generates:
 <input disabled -disabled={@isVegetarian} be-itemized>
 <input type=checkbox name=isVegetarian checked>
 ```
+
+Again, the input element is only generated if no element with attribute name="isVegetarian" is found within the form and/or Shadow DOM scope is found.  To be safe, if generating these elements on the server or by hand, place the elements *before* element adorned by be-itemized.
 
 Modifying the checkbox will affect the input's disabled status (but not the other way around).
 

@@ -1,4 +1,4 @@
-# be-itemized [WIP]
+# be-itemized [TODO]
 
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-itemized?style=for-the-badge)](https://bundlephobia.com/result?p=be-itemized)
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-itemized?compression=gzip">
@@ -8,7 +8,7 @@
 
 Make server rendered html attributes generate and/or bind to  microdata and form elements.
 
-Example 1a:
+## Example 1a: [TODO]
 
 ```html
 <input disabled -disabled={isVegetarian} be-itemized>
@@ -23,7 +23,7 @@ Example 1a:
 
 The link element is only generated if no element with attribute itemprop="isVegetarian" is found within the itemscope (css) scope.  
 
-Example 1b:
+## Example 1b: [TODO]
 
 ```html
 <input disabled -disabled={@isVegetarian} be-itemized>
@@ -36,13 +36,13 @@ generates:
 <input type=checkbox name=isVegetarian checked>
 ```
 
-Again, the input element is only generated if no element with attribute name="isVegetarian" is found within the form and/or Shadow DOM scope is found.  To be safe, if generating these elements on the server or by hand, place the elements *before* element adorned by be-itemized.
+Again, the input element is only generated if no element with attribute name="isVegetarian" is found within the form and/or Shadow DOM scope is found.  To be safe, if generating these elements on the server or by hand, place the elements *before* element adorned by be-itemized.  To
 
 Modifying the checkbox will affect the input's disabled status (but not the other way around).
 
 
 
-Example 2a:
+## Example 2a: [TODO]
 
 ```html
 <div itemscope>

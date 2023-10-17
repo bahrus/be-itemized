@@ -8,6 +8,9 @@
 
 Make server rendered html attributes generate and/or bind to  microdata and form elements.
 
+> [!Note]
+> This element enhancement would probably be most effective if it could be applied in a Cloudflare or Bun or Deno worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
+
 ## Example 1a: [TODO]
 
 ```html

@@ -12,13 +12,16 @@ export class BeItemized extends BE {
                 if (propName in enhancedElement) {
                     const propVal = enhancedElement[propName];
                     switch (typeof propVal) {
+                        case 'boolean':
+                            this.#doBoolean(this, propName, propVal);
+                            break;
                     }
                     console.log({ propVal, propName });
                 }
             }
         }
     }
-    doBinary() {
+    #doBoolean(self, propName, propVal) {
     }
 }
 const tagName = 'be-itemized';

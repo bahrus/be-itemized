@@ -9,7 +9,7 @@
 Make server rendered html attributes generate and/or bind to  microdata and form elements.
 
 > [!Note]
-> This element enhancement would probably be most effective if it could be applied in a Cloudflare or Bun or Deno worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
+> This element enhancement would probably be most effective if it could be partly applied in a Cloudflare or Bun or Deno worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
 
 ## Example 1a: [TODO]
 
@@ -24,9 +24,9 @@ Make server rendered html attributes generate and/or bind to  microdata and form
 <link -- itemprop="isVegetarian" href="https://schema.org/True">
 ```
 
-The link element is only generated if no element with attribute itemprop="isVegetarian" is found within the itemscope (css) scope.  
+The link element is only generated if no element with attribute itemprop="isVegetarian" is found within the itemscope (css) scope, ideally *before* the element adorned with be-itemized.  
 
-However, if not immediately found, it will wait for the itemscope'd element to perceive event named "i-am-here" which is the default name of the event emitted by [be-a-beacon](https://github.com/bahrus/be-a-beacon).
+However, if not immediately found, if the presence of an attribute "wait-for-be-a-beacon" is found in the Shadow DOM scope, it will wait for the itemscope'd element to perceive event named "i-am-here" which is the default name of the event emitted by [be-a-beacon](https://github.com/bahrus/be-a-beacon). [TODO]
 
 ## Example 1b: [TODO]
 
@@ -46,6 +46,16 @@ Again, the input element is only generated if no element with attribute name="is
 Modifying the checkbox will affect the input's disabled status (but not the other way around).
 
 be-itemized's functionality is almost identical to be-observant, and (likely) uses be-observant under the hood.  So if editing the HTML by hand, it might be just as effective to use be-observant directly for the use case above.
+
+## Example 1c [TODO]
+
+```html
+<input disabled -disabled=@isVegetarian be-itemized>
+```
+
+generates:
+
+
 
 ## Example 2a: [TODO]
 

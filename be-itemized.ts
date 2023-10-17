@@ -15,7 +15,9 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
                 if(propName in enhancedElement){
                     const propVal = (<any>enhancedElement)[propName];
                     switch(typeof propVal){
-                        
+                        case 'boolean':
+                            this.#doBoolean(this, propName, propVal);
+                            break;
                     }
                     console.log({propVal, propName});
                 }
@@ -23,7 +25,7 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
         }
     }
 
-    doBinary(){
+    #doBoolean(self: this, propName: string, propVal: boolean){
 
     }
 }

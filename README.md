@@ -34,9 +34,9 @@ What this does:
 ```html
 <my-custom-element is-vegetarian>
     #shadow
-    <div>
-    <input disabled -disabled=isVegetarian be-observant='of / is vegetarian and assign to disabled.'>
-    </div>
+       <input disabled -disabled=isVegetarian 
+        be-observant='of / is vegetarian and assign to disabled.'
+       >
 </my-custom-element>
 ```
 

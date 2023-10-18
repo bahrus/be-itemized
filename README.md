@@ -21,7 +21,7 @@ Binding to microdata is useful for
 ```html
 <my-custom-element>
     <template shadowrootmode=open>
-    <input disabled -disabled=isVegetarian be-itemized>
+    <input disabled -disabled=/isVegetarian be-itemized>
     </template>
 </my-custom-element>
 ```
@@ -33,9 +33,9 @@ What this does:
 
 ```html
 <my-custom-element is-vegetarian>
-    
+    #shadow
     <div>
-    <input disabled -disabled=isVegetarian be-observant='of is vegetarian and assign to disabled.'>
+    <input disabled -disabled=isVegetarian be-observant='of / is vegetarian and assign to disabled.'>
     </div>
 </my-custom-element>
 ```
@@ -51,11 +51,11 @@ What this does:
 </div>
 ```
 
-... generates:
+... generates the equivalent of:
 
 ```html
 <div itemscope>
-<input disabled -disabled=$isVegetarian be-itemized>
+<input disabled -disabled=$isVegetarian be-observant='of $ is vegetarian.'>
 <link -- itemprop="isVegetarian" href="https://schema.org/True">
 </div>
 ```
@@ -64,20 +64,45 @@ The link element is only generated if no element with attribute itemprop="isVege
 
 However, if not immediately found, if the presence of an attribute "wait-for-be-a-beacon" is found in the Shadow DOM scope, it will wait for the itemscope'd element to perceive event named "i-am-here" which is the default name of the event emitted by [be-a-beacon](https://github.com/bahrus/be-a-beacon). [TODO]
 
-## Example 1b: [TODO]
+## Example 1c: [TODO]
 
 ```html
 <input disabled -disabled=@isVegetarian be-itemized>
 ```
 
-generates:
+generates the equivalent of:
 
 ```html
-<input disabled -disabled=@isVegetarian be-itemized>
+<input disabled -disabled=@isVegetarian be-observant='of @ is vegetarian.'>
 <input type=checkbox name=isVegetarian checked>
 ```
 
-Again, the input element is only generated if no element with attribute name="isVegetarian" is found within the form and/or Shadow DOM scope is found.  To be safe, if generating these elements on the server or by hand, place the elements *before* element adorned by be-itemized.  To
+Again, the input element is only generated if no element with attribute name="isVegetarian" is found within the form and/or Shadow DOM scope is found.  To be safe, if generating these elements on the server or by hand, place the elements *before* element adorned by be-itemized.  
+
+## Example 1d: [TODO]
+
+```html
+<my-custom-element>
+    <template shadowrootmode=open>
+    <div>
+    <input disabled -disabled=/$isVegetarian be-itemized>
+    </div>
+    </template>
+</my-custom-element>
+```
+
+results in the equivalent of:
+
+```html
+<my-custom-element>
+    #shadow
+    <div itemscope>
+      <input disabled -disabled=@/isVegetarian be-observant='of / is vegetarian.'>
+      <link -- itemprop=isVegetarian href=https://schema.org/True be-observant='of / is vegetarian.'>
+    </div>
+</my-custom-element>
+
+```
 
 Modifying the checkbox will affect the input's disabled status (but not the other way around).
 

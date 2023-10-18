@@ -11,7 +11,9 @@ Make server rendered html attributes generate and/or bind to  microdata and form
 Binding to microdata is useful for
 
 1.  Styling
-2.  Providing declarative custom elements.
+2.  Providing declarative custom elements (WIP).
+3.  Search engine accuracy
+4.  Hydrating while HTML streams in without FOUC.
 
 > [!Note]
 > This element enhancement would probably be most effective if it could be partly applied in a Cloudflare or Bun or Deno worker and/or a service worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
@@ -34,7 +36,7 @@ What this does:
 ```html
 <my-custom-element is-vegetarian>
     #shadow
-       <input disabled -disabled=isVegetarian 
+       <input disabled -disabled=/isVegetarian 
         be-observant='of / is vegetarian and assign to disabled.'
        >
 </my-custom-element>

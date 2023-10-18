@@ -14,19 +14,50 @@ Binding to microdata is useful for
 2.  Providing declarative custom elements.
 
 > [!Note]
-> This element enhancement would probably be most effective if it could be partly applied in a Cloudflare or Bun or Deno worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
+> This element enhancement would probably be most effective if it could be partly applied in a Cloudflare or Bun or Deno worker and/or a service worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
 
 ## Example 1a: [TODO]
 
 ```html
-<input disabled -disabled=isVegetarian be-itemized>
+<my-custom-element>
+    <template shadowrootmode=open>
+    <input disabled -disabled=isVegetarian be-itemized>
+    </template>
+</my-custom-element>
+```
+
+What this does:
+
+1.  Sets host's isVegetarian property to true.
+2.  Applies (quietly) be-observant enhancement to input element, so that we end up with the equivalent of
+
+```html
+<my-custom-element is-vegetarian>
+    
+    <div>
+    <input disabled -disabled=isVegetarian be-observant='of is vegetarian and assign to disabled.'>
+    </div>
+</my-custom-element>
+```
+
+... only the is-vegetarian and be-observant attributes won't actually be set.
+
+
+## Example 1b: [TODO]
+
+```html
+<div>
+<input disabled -disabled=$isVegetarian be-itemized>
+</div>
 ```
 
 ... generates:
 
 ```html
-<input disabled -disabled=isVegetarian be-itemized>
+<div itemscope>
+<input disabled -disabled=$isVegetarian be-itemized>
 <link -- itemprop="isVegetarian" href="https://schema.org/True">
+</div>
 ```
 
 The link element is only generated if no element with attribute itemprop="isVegetarian" is found within the itemscope (css) scope, ideally *before* the element adorned with be-itemized.  
@@ -42,7 +73,7 @@ However, if not immediately found, if the presence of an attribute "wait-for-be-
 generates:
 
 ```html
-<input disabled -disabled={@isVegetarian} be-itemized>
+<input disabled -disabled=@isVegetarian be-itemized>
 <input type=checkbox name=isVegetarian checked>
 ```
 

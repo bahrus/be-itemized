@@ -24,7 +24,7 @@ Binding to microdata is useful for
 ```html
 <my-custom-element>
     <template shadowrootmode=open>
-    <input disabled -disabled=isVegetarian be-itemized>
+    <input disabled -disabled=/isVegetarian be-itemized>
     </template>
 </my-custom-element>
 ```
@@ -34,16 +34,19 @@ What this does:
 1.  Sets host's isVegetarian property to true.
 2.  Applies (quietly) be-observant enhancement to input element, so that we end up with the equivalent of
 
+
 ```html
 <my-custom-element is-vegetarian>
     #shadow
        <input disabled -disabled=/isVegetarian 
-        be-observant='of / is vegetarian and assign to disabled.'
+        be-observant='of is vegetarian and assign to disabled.'
        >
 </my-custom-element>
 ```
 
 ... only the is-vegetarian and be-observant attributes won't actually be set.
+
+The slash (/) is optional;
 
 
 ## Example 1b: [TODO]
@@ -59,15 +62,30 @@ What this does:
 ```html
 <div itemscope>
 <input disabled -disabled=$isVegetarian be-observant='of $ is vegetarian.'>
-<link -- itemprop="isVegetarian" href="https://schema.org/True">
+<link itemprop="isVegetarian" href="https://schema.org/True">
 </div>
 ```
+
+
+
 
 The link element is only generated if no element with attribute itemprop="isVegetarian" is found within the itemscope (css) scope, ideally *before* the element adorned with be-itemized.  
 
 However, if not immediately found, if the presence of an attribute "wait-for-be-a-beacon" is found in the Shadow DOM scope, it will wait for the itemscope'd element to perceive event named "i-am-here" which is the default name of the event emitted by [be-a-beacon](https://github.com/bahrus/be-a-beacon). [TODO]
 
-## Example 1c: [TODO]
+## Example 1c:  Combining 1a and 1b: [TODO]
+
+```html
+<my-custom-element is-vegetarian>
+    #shadow
+       <input disabled -disabled=/$isVegetarian 
+       >
+</my-custom-element>
+```
+
+This will both set the host's isVegetarian property to true, *and* create the link itemprop tag, and add be-observant to both.
+
+## Example 1d: [TODO]
 
 ```html
 <input disabled -disabled=@isVegetarian be-itemized>
@@ -82,7 +100,7 @@ generates the equivalent of:
 
 Again, the input element is only generated if no element with attribute name="isVegetarian" is found within the form and/or Shadow DOM scope is found.  To be safe, if generating these elements on the server or by hand, place the elements *before* element adorned by be-itemized.  
 
-## Example 1d: [TODO]
+## Example 1e: [TODO]
 
 ```html
 <my-custom-element>

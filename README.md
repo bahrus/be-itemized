@@ -14,6 +14,7 @@ Binding to microdata is useful for
 2.  Providing declarative custom elements (WIP).
 3.  Search engine accuracy
 4.  Hydrating while HTML streams in without FOUC.
+5.  Can serialize state from the server to the browser without requiring all properties of the custom element to have an attribute equivalent.
 
 > [!Note]
 > This element enhancement would probably be most effective if it could be partly applied in a Cloudflare or Bun or Deno worker and/or a service worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
@@ -23,7 +24,7 @@ Binding to microdata is useful for
 ```html
 <my-custom-element>
     <template shadowrootmode=open>
-    <input disabled -disabled=/isVegetarian be-itemized>
+    <input disabled -disabled=isVegetarian be-itemized>
     </template>
 </my-custom-element>
 ```

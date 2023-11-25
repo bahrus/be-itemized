@@ -2,11 +2,12 @@ import { ActionOnEventConfigs } from "trans-render/froop/types";
 import {IBE} from 'be-enhanced/types';
 
 export interface EndUserProps extends IBE{
-
+    markers: Array<Attr>;
 }
 
 export interface AllProps extends EndUserProps{
-
+    isInterpolationMarker?: boolean,
+    parsedInterpolationMarkers? 
 }
 
 export type AP = AllProps;

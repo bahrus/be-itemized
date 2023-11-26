@@ -24,6 +24,14 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
     }
 
     onSinglePropMarkers(self: this): PAP {
+        const {singlePropMarkers} = self;
+        for(const singlePropMarker of singlePropMarkers!){
+            let {value} = singlePropMarker;
+            const linksToHost = value.includes('/');
+            if(linksToHost){
+                value = value.replace('/', '');
+            }
+        }
         return {
             singlePropMarkersResolved: true
         }

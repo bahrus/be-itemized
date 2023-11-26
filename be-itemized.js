@@ -17,6 +17,14 @@ export class BeItemized extends BE {
         };
     }
     onSinglePropMarkers(self) {
+        const { singlePropMarkers } = self;
+        for (const singlePropMarker of singlePropMarkers) {
+            let { value } = singlePropMarker;
+            const linksToHost = value.includes('/');
+            if (linksToHost) {
+                value = value.replace('/', '');
+            }
+        }
         return {
             singlePropMarkersResolved: true
         };

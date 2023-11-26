@@ -23,7 +23,7 @@ export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
 
 export interface Actions{
     onMarkers(self: this): PAP;
-    onSinglePropMarkers(self: this): PAP;
+    onSinglePropMarkers(self: this): ProPAP;
     onInterpolationMarkers(self: this): PAP;
     readyToResolve(self: this): PAP;
 }

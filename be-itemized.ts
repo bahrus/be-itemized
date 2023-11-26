@@ -3,6 +3,9 @@ import {BEConfig, EnhancementInfo} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
 import {Actions, AllProps, AP, PAP, ProPAP, POA} from './types';
 import {register} from 'be-hive/register.js';
+import {camelToLisp} from 'trans-render/lib/camelToLisp.js';
+import {getRemoteEl} from 'be-linked/getRemoteEl.js';
+//import {getSignalVal} from 'be-linked/getSignalVal.js'
 
 export class BeItemized extends BE<AP, Actions> implements Actions{
     override async attach(enhancedElement: Element, enhancementInfo: EnhancementInfo) {
@@ -23,14 +26,21 @@ export class BeItemized extends BE<AP, Actions> implements Actions{
         };
     }
 
-    onSinglePropMarkers(self: this): PAP {
-        const {singlePropMarkers} = self;
+    async onSinglePropMarkers(self: this): ProPAP {
+        const {singlePropMarkers, enhancedElement} = self;
         for(const singlePropMarker of singlePropMarkers!){
-            let {value} = singlePropMarker;
+            let {value, name} = singlePropMarker;
+            const prop = camelToLisp(name.substring(1)); //TODO:  data-
             const linksToHost = value.includes('/');
             if(linksToHost){
                 value = value.replace('/', '');
+                
             }
+            if(linksToHost){
+                const remoteEl = await getRemoteEl(enhancedElement, '/', prop);
+                (<any>remoteEl)[value] = (<any>enhancedElement)[prop];
+            }
+            //getSignalVal(enhancedElement);
         }
         return {
             singlePropMarkersResolved: true

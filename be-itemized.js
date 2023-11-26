@@ -1,6 +1,9 @@
 import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
+import { camelToLisp } from 'trans-render/lib/camelToLisp.js';
+import { getRemoteEl } from 'be-linked/getRemoteEl.js';
+//import {getSignalVal} from 'be-linked/getSignalVal.js'
 export class BeItemized extends BE {
     async attach(enhancedElement, enhancementInfo) {
         super.attach(enhancedElement, enhancementInfo);
@@ -16,14 +19,20 @@ export class BeItemized extends BE {
             interpolationMarkers
         };
     }
-    onSinglePropMarkers(self) {
-        const { singlePropMarkers } = self;
+    async onSinglePropMarkers(self) {
+        const { singlePropMarkers, enhancedElement } = self;
         for (const singlePropMarker of singlePropMarkers) {
-            let { value } = singlePropMarker;
+            let { value, name } = singlePropMarker;
+            const prop = camelToLisp(name.substring(1)); //TODO:  data-
             const linksToHost = value.includes('/');
             if (linksToHost) {
                 value = value.replace('/', '');
             }
+            if (linksToHost) {
+                const remoteEl = await getRemoteEl(enhancedElement, '/', prop);
+                remoteEl[value] = enhancedElement[prop];
+            }
+            //getSignalVal(enhancedElement);
         }
         return {
             singlePropMarkersResolved: true

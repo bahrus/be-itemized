@@ -6,13 +6,14 @@
     <title>Example 1a</title>
 </head>
 <body itemscope>
-    <input disabled -disabled=isVegetarian be-itemized>
+    <my-custom-element></my-custom-element>
     <script type=importmap>
         {
             "imports": {
                 "be-enhanced/": "../node_modules/be-enhanced/",
                 "be-hive/": "../node_modules/be-hive/",
                 "be-value-added/": "../node_modules/be-value-added/",
+                "mount-observer/": "../node_modules/mount-observer/",
                 "trans-render/": "../node_modules/trans-render/",
                 "xtal-element/": "../node_modules/xtal-element/"
             }
@@ -20,6 +21,7 @@
     </script>
     <script type=module>
         import '../be-itemized.js';
+        import '../MyCustomElement/MyCustomElement.js';
     </script>
 </body>
 </html>
